@@ -15,36 +15,58 @@ class CloudWall {
         this.setupControls();
 
         // Init View
-        this.setView('both');
+        this.setView('morning');
     }
 
     render() {
         this.container.innerHTML = '';
-        this.data.days.forEach((d, i) => {
-            const cell = document.createElement('div');
-            cell.className = 'cal-cell';
 
-            // Create Layers
-            const am = document.createElement('div');
-            am.className = 'am-layer';
-            this.setLayerColor(am, d.morning);
-            // Bind Context
-            am.onmouseenter = (e) => this.showPreview(d, 'morning', e);
-            am.onmousemove = (e) => this.movePreview(e);
-            am.onmouseleave = () => this.hidePreview();
+        // Group data by month (0-11)
+        const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
-            const pm = document.createElement('div');
-            pm.className = 'pm-layer';
-            this.setLayerColor(pm, d.afternoon);
-            // Bind Context
-            pm.onmouseenter = (e) => this.showPreview(d, 'afternoon', e);
-            pm.onmousemove = (e) => this.movePreview(e);
-            pm.onmouseleave = () => this.hidePreview();
+        for (let m = 0; m < 12; m++) {
+            // Filter days for this month
+            const monthDays = this.data.days.filter(d => d.date.getMonth() === m);
 
-            cell.appendChild(am);
-            cell.appendChild(pm);
-            this.container.appendChild(cell);
-        });
+            // Create Row
+            const row = document.createElement('div');
+            row.className = 'month-row';
+
+            // Create Label
+            const label = document.createElement('div');
+            label.className = 'month-label';
+            label.textContent = months[m];
+            row.appendChild(label);
+
+            // Create Days
+            monthDays.forEach(d => {
+                const cell = document.createElement('div');
+                cell.className = 'cal-cell';
+
+                // Create Layers
+                const am = document.createElement('div');
+                am.className = 'am-layer';
+                this.setLayerColor(am, d.morning);
+                // Bind Context
+                am.onmouseenter = (e) => this.showPreview(d, 'morning', e);
+                am.onmousemove = (e) => this.movePreview(e);
+                am.onmouseleave = () => this.hidePreview();
+
+                const pm = document.createElement('div');
+                pm.className = 'pm-layer';
+                this.setLayerColor(pm, d.afternoon);
+                // Bind Context
+                pm.onmouseenter = (e) => this.showPreview(d, 'afternoon', e);
+                pm.onmousemove = (e) => this.movePreview(e);
+                pm.onmouseleave = () => this.hidePreview();
+
+                cell.appendChild(am);
+                cell.appendChild(pm);
+                row.appendChild(cell);
+            });
+
+            this.container.appendChild(row);
+        }
     }
 
     setupControls() {
@@ -138,10 +160,10 @@ class CloudWall {
             cell.style.boxShadow = 'none';
 
             let highlight = false;
-            if (step == '2' && d.month <= 2) highlight = true;
-            if (step == '3' && d.month === 4) highlight = true;
-            if (step == '4' && d.month === 5) highlight = true;
-            if (step == '6' && (d.month === 8 || d.month === 9)) highlight = true;
+            if (step == '2' && d.month <= 3) highlight = true;
+            if (step == '3' && d.month === 5) highlight = true;
+            if (step == '4' && d.month === 6) highlight = true;
+            if (step == '6' && (d.month === 9 || d.month === 10)) highlight = true;
 
             if (highlight) {
                 cell.style.transform = 'scale(1.2)';

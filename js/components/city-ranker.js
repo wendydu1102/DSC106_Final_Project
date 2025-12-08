@@ -10,7 +10,13 @@ class CityRanker {
             style: 'mapbox://styles/mapbox/light-v10',
             center: [-118.5, 33.8],
             zoom: 7,
-            scrollZoom: false
+            minZoom: 6.5,
+            maxZoom: 12,
+            maxBounds: [
+                [-122, 32], // Southwest coordinates
+                [-114, 35.5] // Northeast coordinates
+            ],
+            scrollZoom: true // Enable scroll zoom but constrained
         });
 
         this.map.on('load', () => this.initMap());
@@ -20,6 +26,9 @@ class CityRanker {
             closeOnClick: false,
             offset: 15
         });
+
+        // Initialize Search Interface
+        this.initSearch();
     }
 
     initMap() {
@@ -64,8 +73,15 @@ class CityRanker {
 
         this.map.on('click', 'cities-layer', (e) => {
             if (e.features.length) {
-                const coords = e.features[0].geometry.coordinates;
+                const feature = e.features[0];
+                const coords = feature.geometry.coordinates;
                 this.map.flyTo({ center: coords, zoom: 10 });
+
+                // Show standard popup
+                new mapboxgl.Popup({ offset: 15, closeButton: false })
+                    .setLngLat(coords)
+                    .setHTML(this.getPopupHTML(feature.properties.name, feature.properties.score, feature.properties.rank))
+                    .addTo(this.map);
             }
         });
 
@@ -76,20 +92,9 @@ class CityRanker {
         if (!e.features.length) return;
         const feature = e.features[0];
 
-        const cityData = this.data.cities[feature.properties.name];
-        const sunnyPct = cityData ? Math.round(cityData.stats.avgSun * 100) : 50;
-        const cloudPct = cityData ? Math.round(cityData.stats.avgCloud * 100) : 50;
-        const temp = cityData ? Math.round(cityData.stats.avgTemp) : 70;
+        const html = this.getPopupHTML(feature.properties.name, feature.properties.score, feature.properties.rank);
 
-        const html = `
-            <div class="popup-city">${feature.properties.name}</div>
-            <div class="popup-score">Score: <strong>${feature.properties.score}</strong> (Rank #${feature.properties.rank})</div>
-            <div class="popup-detail">
-                <div class="popup-stat">Sun: ${sunnyPct}%</div>
-                <div class="popup-stat">Cloud: ${cloudPct}%</div>
-                <div class="popup-stat" style="grid-column: span 2;">Temp: ${temp}°F</div>
-            </div>
-        `;
+
 
         this.popup.setLngLat(feature.geometry.coordinates)
             .setHTML(html)
@@ -171,6 +176,141 @@ class CityRanker {
                 features: features
             });
         }
+    }
+
+    initSearch() {
+        const input = document.getElementById('city-search-input');
+        const list = document.getElementById('city-search-results');
+        const clearBtn = document.getElementById('search-clear-btn');
+
+        if (!input || !list) return;
+
+        const showAllCities = () => {
+            const allCities = Object.values(this.data.cities).sort((a, b) => a.name.localeCompare(b.name));
+            this.renderSearchResults(allCities, list);
+        };
+
+        // Focus Handler - Show all
+        input.addEventListener('focus', () => {
+            if (input.value.trim().length === 0) {
+                showAllCities();
+            } else {
+                // If there's value, trigger input logic
+                input.dispatchEvent(new Event('input'));
+            }
+        });
+
+        // Input Handler
+        input.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+
+            // Toggle clear button
+            if (clearBtn) clearBtn.style.display = query.length > 0 ? 'flex' : 'none';
+
+            if (query.length < 1) {
+                showAllCities(); // Show all instead of hiding
+                return;
+            }
+
+            // Filter
+            const matches = Object.values(this.data.cities).filter(city =>
+                city.name.toLowerCase().includes(query)
+            );
+
+            this.renderSearchResults(matches, list);
+        });
+
+        // Clear Button Handler
+        if (clearBtn) {
+            clearBtn.addEventListener('click', () => {
+                input.value = '';
+                showAllCities(); // Keep dropdown open with all cities
+                clearBtn.style.display = 'none';
+                input.focus();
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!input.contains(e.target) && !list.contains(e.target)) {
+                list.style.display = 'none';
+            }
+        });
+    }
+
+    renderSearchResults(matches, listContainer) {
+        listContainer.innerHTML = '';
+
+        if (matches.length === 0) {
+            listContainer.style.display = 'none';
+            return;
+        }
+
+        // No slice limit, show all matches (scrolling handled by CSS)
+        // const topMatches = matches.slice(0, 8); 
+
+        matches.forEach(city => {
+            const li = document.createElement('li');
+            li.textContent = city.name;
+            li.onclick = () => {
+                this.selectCity(city);
+                listContainer.style.display = 'none';
+            };
+            listContainer.appendChild(li);
+        });
+
+        listContainer.style.display = 'block';
+    }
+
+    selectCity(city) {
+        const input = document.getElementById('city-search-input');
+        if (input) input.value = city.name;
+
+        // Show clear button since value is populated
+        const clearBtn = document.getElementById('search-clear-btn');
+        if (clearBtn) clearBtn.style.display = 'flex';
+
+        if (this.map) {
+            this.map.flyTo({
+                center: [city.lon, city.lat],
+                zoom: 11,
+                essential: true
+            });
+
+            // Trigger popup with standardized HTML
+            const cityData = this.data.cities[city.name];
+            // Calculate rank dynamically (it might change with filters)
+            // But selectCity receives 'city' object which is raw data, need rank
+            // The score is re-calc'd, so let's calc score. Rank is tough without full sort.
+            // Simplified: use score.
+
+            const score = this.calculateScore(city);
+
+            new mapboxgl.Popup({ offset: 15, closeButton: false })
+                .setLngLat([city.lon, city.lat])
+                .setHTML(this.getPopupHTML(city.name, score, null)) // Pass null for rank if unknown
+                .addTo(this.map);
+        }
+    }
+
+    getPopupHTML(cityName, score, rank) {
+        const cityData = this.data.cities[cityName];
+        if (!cityData) return '';
+
+        const sunnyPct = Math.round(cityData.stats.avgSun * 100);
+        const cloudPct = Math.round(cityData.stats.avgCloud * 100);
+        const temp = Math.round(cityData.stats.avgTemp);
+        const rankHtml = rank ? ` (Rank #${rank})` : '';
+
+        return `
+            <div class="popup-city">${cityName}</div>
+            <div class="popup-score">Score: <strong>${score}</strong>${rankHtml}</div>
+            <div class="popup-detail">
+                <div class="popup-stat">Sun: ${sunnyPct}%</div>
+                <div class="popup-stat">Cloud: ${cloudPct}%</div>
+                <div class="popup-stat" style="grid-column: span 2;">Temp: ${temp}°F</div>
+            </div>
+        `;
     }
 }
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Gray Truth of Sunny SoCal | 2023 Analysis</title>
+    <title>Sunny Cloudy SoCal</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,10 +34,16 @@
     <!-- Mapbox -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+
+    <!-- New Component Styles -->
+    <link rel="stylesheet" href="css/components/navigator.css">
 </head>
 
 <body>
+    <!-- SECTION NAVIGATOR -->
+    <nav id="section-navigator"></nav>
 
+    <!-- INTRO HOOK (Overlay) -->
     <!-- INTRO HOOK (Overlay) -->
     <div id="intro-hook" class="intro-overlay">
         <!-- Close/Skip Button -->
@@ -244,8 +250,9 @@
                 <div class="article-thumbnail"
                     style="background-image: url('data/goes_images_monthly/2023-03/20230319_2202.webp');"></div>
                 <div class="article-info">
-                    <h3>The Gray Truth of Sunny SoCal</h3>
-                    <p>Why May Gray and June Gloom dominate the coast.</p>
+                    <h3><span class="strike-through">Sunny</span> Cloudy SoCal</h3>
+                    <p>Is SoCal really sunny?</p>
+                    <p>Find out the truth behind the SoCal sunshine myth.</p>
                 </div>
                 <div class="article-cta">
                     Tap to Read Full Story &rarr;
@@ -255,7 +262,7 @@
     </div>
 
     <!-- SECTION 1: HERO (Title & Hook) -->
-    <section class="hero">
+    <section class="hero" id="hero-section">
         <!-- Replay Story Button -->
         <div id="replay-story-btn" class="story-replay-badge">
             <div class="story-avatar-tiny" style="background-image: url('assets/wave.webp');"></div>
@@ -267,18 +274,25 @@
         </div>
 
         <div class="hero-content">
-            <h1 class="hero-title">The Gray Truth of Sunny SoCal</h1> <br>
-            <p class="hero-subtitle">Visualizing 365 days of cloud cover in 2023.</p>
+            <h1 class="hero-title"><span class="strike-through">Sunny</span> Cloudy SoCal</h1> <br>
+            <p class="hero-tagline">Is SoCal <em>really</em> sunny?</p><br>
+            <p class="hero-subtitle">Visualizing 365 days of NOAA GOES-16 satellite imagery</p>
         </div>
         <canvas id="fog-overlay"></canvas>
         <div class="scroll-prompt">Scroll for Analysis</div>
     </section>
 
-    <!-- INTRO -->
-    <section class="intro">
-        <p>Southern California is sold to the world as a paradise of perpetual blue skies. But for the 20 million
-            residents living here, the reality is often grayer, gloomier, and more complex. We analyzed satellite
-            imagery from every morning in 2023 to map the true patterns of the marine layer.</p>
+
+    <!-- INTRO: PART 1 HEADER -->
+    <section id="part1-header" class="part-divider">
+        <div class="part-number">01</div>
+        <div class="part-content">
+            <h2>I. The Satellite Records</h2>
+            <p>Southern California is often marketed as a place with perfect weather. But for the millions of people
+                living
+                along the coast, it is frequently cloudy. To answer the question "Is SoCal really sunny?", we analyzed
+                the actual weather patterns by processing 365 days of NOAA GOES-16 satellite imagery from 2023. </p>
+        </div>
     </section>
 
     <!-- SECTION 2: CLOUD WALL (SCROLLYTELLING) -->
@@ -311,25 +325,26 @@
                 <div class="step-content">
                     <h3>The Morning Baseline</h3>
                     <p>This is the view from space at 8:00 AM each day. Contrary to the stereotype, perfectly clear
-                        mornings are rare anomalies, not the rule.</p>
+                        mornings are not that common. 55.07% of mornings in 2023 (201 out of 365 days) had over 50%
+                        cloud cover.</p>
                 </div>
             </div>
 
             <!-- Step 2 -->
             <div class="step" data-step="2">
                 <div class="step-content">
-                    <h3>Winter Instability</h3>
-                    <p>The year began with significant atmospheric instability. Jan through March 2023 saw historic
-                        rainfall, reflected here in the dense, persistent cloud bands.</p>
+                    <h3>Winter Storms</h3>
+                    <p>The year started with heavy storms. January through March 2023 saw historic rainfall and thick,
+                        persistent clouds.</p>
                 </div>
             </div>
 
             <!-- Step 3 -->
             <div class="step" data-step="3">
                 <div class="step-content">
-                    <h3>The "May Gray" Shift</h3>
-                    <p>As spring stabilizes, a different pattern emerges. The marine layer begins to solidify, turning
-                        the coast into a permanent bank of low-level stratus clouds.</p>
+                    <h3>"May Gray" Arrives</h3>
+                    <p>In spring, the pattern changes. The marine layer forms more often, covering the coast in low
+                        clouds.</p>
                 </div>
             </div>
 
@@ -337,18 +352,18 @@
             <div class="step" data-step="4">
                 <div class="step-content">
                     <h3>Peak Gloom</h3>
-                    <p>By June, the marine layer is at its strongest. For coastal residents, the sun is effectively
-                        blocked for weeks at a time. This is the infamous "June Gloom."</p>
+                    <p>By June, the marine layer is thickest. For people living near the coast, the sun is often blocked
+                        for weeks at a time.</p>
                 </div>
             </div>
 
             <!-- Step 5 -->
             <div class="step" data-step="5">
                 <div class="step-content">
-                    <h3>The Afternoon Burn-off</h3>
-                    <p>Changing the data view to <strong>2:00 PM</strong> reveals the defining rhythm of the region. The
-                        marine layer is fragile; it evaporates as the land heats up, clearing the skies by
-                        mid-afternoon.</p>
+                    <h3>Afternoon Clearing</h3>
+                    <p>Switching to <strong>2:00 PM</strong> shows a different picture. As the land heats up, the clouds
+                        usually evaporate. However, clouds still lingered in the afternoon 47.95% of the time in 2023.
+                    </p>
                 </div>
             </div>
 
@@ -356,17 +371,17 @@
             <div class="step" data-step="6">
                 <div class="step-content">
                     <h3>Second Summer</h3>
-                    <p>True summer arrives late. September and October bring the clearest, hottest days often referred
-                        to as "Second Summer," as the desert winds finally overpower the ocean air.</p>
+                    <p>True summer comes late. September and October are often the clearest, hottest months as dry
+                        desert air pushes the clouds away.</p>
                 </div>
             </div>
 
             <!-- Step 7 -->
             <div class="step" data-step="7">
                 <div class="step-content">
-                    <h3>A Complex Rhythm</h3>
-                    <p>The "Sunny SoCal" label is a simplification of this complex daily dance between ocean and desert.
-                        To understand it, we must experience the variability day by day.</p>
+                    <h3>Time Matters</h3>
+                    <p>The time of day is just as important as the season. Try comparing the morning and afternoon views
+                        to see how the cloud patterns change each day. </p>
                 </div>
             </div>
         </div>
@@ -375,12 +390,10 @@
     <!-- BRIDGE 1 -->
     <section class="prose-bridge">
         <h2>The Daily Rhythm</h2>
-        <p>While the annual calendar reveals the large-scale dominance of the marine layer, it obscures the day-to-day
-            texture of the weather. A single week in May can oscillate between heavy drizzle and scorching heat
-            depending on the strength of the onshore flow.</p>
-        <p>To truly grasp the variability, we need to look closer. We've built an interactive archive of the 2023
-            satellite record. You can scrub through the year below to observe the formation and dissipation of clouds
-            for yourself.</p>
+        <p>The yearly view shows us the overall trend, but it's better to see the daily reality more closely. To capture the day-to-day
+            experience, we measured the <strong>daily average cloud fraction</strong>—the percentage of pixels
+            classified as cloudy—specifically for the coastal region (32°N to 35°N). This tool lets you explore those
+            daily patterns with a closer look.</p>
     </section>
 
     <!-- SECTION 3: CLOUD PLAYGROUND -->
@@ -464,11 +477,15 @@
     <!-- BRIDGE 2: PREPARING FOR MECHANISM -->
     <section class="prose-bridge">
         <h2>The Engine of Gloom</h2>
-        <p>Why does the coast stay gray while the desert burns? It is a battle of density. The cool, heavy ocean air
+        <p>This persistent gray pattern is what locals call <strong>"June Gloom"</strong>. The satellite data shows us
+            <em>what</em> it looks like, but to understand <em>why</em> it happens, we have to look at the physics.
+        </p>
     </section>
 
-    <!-- SECTION 3.5: MECHANISM VIZ (SCROLLYTELLING REDESIGN) -->
+    <!-- SECTION 3.5: MECHANISM VIZ -->
     <section id="mechanism-section" class="scrolly-container bg-dark">
+        <!-- ... (Mechanism content stays same, just adding ID reference if needed, but ID is already there) ... -->
+
 
         <!-- STICKY VIZ -->
         <div class="mech-sticky-stage">
@@ -490,40 +507,37 @@
             <!-- Step 1: The Normal Atmosphere -->
             <div class="mech-step" data-step="1">
                 <div class="mech-card">
-                    <h3>1. The Normal Atmosphere</h3>
-                    <p>Usually, the air is open. As you go higher, the air gets cooler and lighter. Clouds can rise
-                        freely and dissipate into the atmosphere efficiently.</p>
+                    <h3>1. Normal Air</h3>
+                    <p>Usually, air gets cooler as you go higher up. This allows clouds to rise easily and fade away
+                        into the atmosphere.</p>
                 </div>
             </div>
 
             <!-- Step 2: The Inversion Lid -->
             <div class="mech-step" data-step="2">
                 <div class="mech-card">
-                    <h3>2. The Inversion Layer</h3>
-                    <p>But in June, a layer of hot, sinking air sits on top of the cool marine layer. This creates a
-                        <strong>temperature inversion</strong>—an invisible "warm lid" that traps the cool, moist air
-                        below.
-                    </p>
+                    <h3>2. The Warm Lid</h3>
+                    <p>In June, a layer of warm air sits on top of the cool ocean air. This warm layer acts like a cap
+                        (or "inversion") that holds the cool, moist air down.</p>
                 </div>
             </div>
 
             <!-- Step 3: The Coastal Trap -->
             <div class="mech-step" data-step="3">
                 <div class="mech-card">
-                    <h3>3. The Trap</h3>
-                    <p>The cool ocean breeze blows inland, pushing the marine layer against the mountains. Trapped
-                        between the mountains and the inversion lid, the fog compresses into a thick, gray blanket over
-                        the coast.</p>
+                    <h3>3. Trapped Clouds</h3>
+                    <p>Cool ocean breezes push clouds inland against the mountains. Because they are stuck beneath the
+                        warm air layer, the fog forms a thick sheet over the coast.</p>
                 </div>
             </div>
 
             <!-- Step 4: The Interactive Burn-Off -->
             <div class="mech-step" data-step="4">
                 <div class="mech-card">
-                    <h3>4. The Burn-Off</h3>
-                    <p>The only escape is heat. As the sun rises, it warms the ground, heating the air from below. This
-                        mixes out the marine layer and "burns off" the fog.</p>
-                    <p><strong>Control the Sun:</strong> Scrub the slider to burn off the marine layer.</p>
+                    <h3>4. Burning Off</h3>
+                    <p>When the sun rises, it warms the ground. This heat mixes the air and causes the fog to evaporate
+                        (or "burn off").</p>
+                    <p><strong>Try it:</strong> Scrub the slider to clear the marine layer.</p>
                 </div>
             </div>
 
@@ -533,10 +547,18 @@
     </section>
     <section class="prose-bridge">
         <h2>Quantifying the "Vibe"</h2>
-        <p>Clouds are only one part of the equation. The "SoCal Vibe"—that specific feeling of warmth and light—is a
-            composite of three variables: <em>Cloud Cover</em>, <em>Temperature</em>, and <em>Solar Radiation</em>.</p>
-        <p>When we layer these datasets, we see that the peak of heat does not align with the peak of light. The "June
-            Gloom" phenomenon creates a lag, pushing the "ideal" summer weather late into the calendar year.</p>
+        <p>Understanding the cause is important, but we also need to measure the effect on daily life.</p>
+    </section>
+
+    <!-- INTRO: PART 2 HEADER -->
+    <section id="part2-header" class="part-divider">
+        <div class="part-number">02</div>
+        <div class="part-content">
+            <h2>II. The Climate Projection</h2>
+            <p>We combined our 2023 observational data with <strong>CMIP6 historical climate models</strong>, taking the
+                average temperature and solar radiation over 20 years to see how the gloom affects the actual "summer"
+                weather.</p>
+        </div>
     </section>
 
     <!-- SECTION 4: CLIMATE LAB -->
@@ -576,11 +598,9 @@
     <!-- BRIDGE 3 -->
     <section class="prose-bridge">
         <h2>Finding Your Spot</h2>
-        <p>If the weather is this variable, where is the best place to live? The answer depends entirely on your
-            personal definition of "Good Weather."</p>
-        <p>Some avoid the heat at all costs and welcome the cooling marine layer. Others demand clear skies and tolerate
-            the desert temperatures. We built a ranking model that adjusts to your personal preferences, re-ordering the
-            region's cities based on their 2023 performance.</p>
+        <p>These regional averages show the general pattern, but the weather changes drastically depending on where you
+            are. We used these <strong>long-term climate averages</strong> to build a ranking model for every city. Use
+            the tool below to find the location that matches your specific preferences.</p>
     </section>
 
     <!-- SECTION 5: SUNNY CITY PLAYGROUND -->
@@ -591,27 +611,24 @@
         <div class="city-dashboard">
             <!-- Floating Sidebar -->
             <div class="city-sidebar">
-                <div class="sidebar-header" style="margin-bottom:1.5rem; text-align: left;">
-                    <h2 style="font-size:1.5rem; margin-bottom:0.5rem;">The Location Optimizer</h2>
-                    your match.</p>
+                <div class="sidebar-header">
+                    <h2>Location Optimizer</h2>
+                    <p>Find the one city that matches your definition of "Good Weather", or just confirm your own bias.
+                    </p>
                 </div>
-
                 <!-- Search -->
-                <div class="search-wrapper" style="margin-bottom: 1.5rem; position: relative;">
-                    <div class="search-input-box"
-                        style="display: flex; align-items: center; background: #f5f5f5; border-radius: 8px; padding: 0.5rem 0.8rem; border: 1px solid transparent; transition: all 0.2s;">
+                <div class="search-wrapper">
+                    <div class="search-input-box">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="11" cy="11" r="8"></circle>
                             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg>
-                        <input type="text" id="city-search-input" placeholder="Find your city..." autocomplete="off"
-                            style="flex: 1; border: none; background: transparent; padding-left: 0.5rem; outline: none; font-size: 0.95rem; font-family: inherit; color: #333;">
-                        <button id="search-clear-btn"
-                            style="border: none; background: none; cursor: pointer; color: #999; display: none; padding: 2px;">✕</button>
+                        <input type="text" id="city-search-input" placeholder="Find your city..." autocomplete="off">
+                        <button id="search-clear-btn" style="display:none;">✕</button>
                     </div>
                     <!-- Custom Dropdown Results -->
-                    <ul id="city-search-results" class="search-results-list" style="display: none;"></ul>
+                    <ul id="city-search-results" class="search-results-list"></ul>
                 </div>
 
                 <div class="city-filters panel">
@@ -636,8 +653,8 @@
                     </div>
                 </div>
 
-                <div class="city-leaderboard panel" style="margin-top: 1rem;">
-                    <h3 style="font-size:0.85rem; color:#999; margin-bottom: 0.5rem;">Top Candidates</h3>
+                <div class="city-leaderboard panel">
+                    <div class="leaderboard-header">Top Candidates</div>
                     <div id="city-list">
                         <!-- JS Generated -->
                     </div>
@@ -672,8 +689,9 @@
         <div class="footer-content">
             <div class="footer-brand">
                 <h3>
-                    <cross>Sunny</cross> Cloudy Socal
+                    <span class="strike-through">Sunny</span> Cloudy Socal
                 </h3>
+                <p class="footer-tagline">Is SoCal really sunny?</p>
                 <p>Decoding Southern California's "Sunny" Reputation through Data.</p>
             </div>
 
@@ -717,8 +735,11 @@
     <script src="js/components/cloud-playground.js"></script>
     <script src="js/components/gloom-scatter.js"></script>
     <script src="js/components/climate-lab.js"></script>
+    <script src="js/components/gloom-scatter.js"></script>
+    <script src="js/components/climate-lab.js"></script>
     <script src="js/components/mechanism.js"></script>
     <script src="js/components/realtime_clouds.js"></script>
+    <script src="js/components/navigator.js"></script>
 
 
     <!-- Main Initialization -->

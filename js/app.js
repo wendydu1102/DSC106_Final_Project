@@ -42,6 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Creating FogController...');
         app.fog = new FogController();
 
+        // Initialize new Navigator
+        app.navigator = new SectionNavigator();
+
         // Intro Hook
         console.log('Creating IntroHook...');
         if (typeof IntroHook !== 'undefined') {

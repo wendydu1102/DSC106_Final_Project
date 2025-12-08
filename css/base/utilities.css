@@ -28,3 +28,9 @@
 .bg-light {
     background: #f9f9f9;
 }
+
+.strike-through {
+    text-decoration: line-through;
+    opacity: 0.6;
+    margin-right: 0.2rem;
+}

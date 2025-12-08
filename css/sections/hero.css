@@ -113,6 +113,33 @@
     padding: 0.25rem 0.75rem;
 }
 
+.hero-tagline {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    /* Slightly larger */
+    color: #fff;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    font-style: italic;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+    background: #000;
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    transform: rotate(-2deg);
+    /* Jaunty angle */
+    box-shadow: 4px 4px 0px #e1306c;
+    /* Pop shadow */
+}
+
+.hero-tagline em {
+    color: #ffd700;
+    font-style: normal;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 4px;
+}
+
 
 /* === STORY REPLAY BADGE === */
 .story-replay-badge {
@@ -153,7 +180,7 @@
 
 .scroll-prompt {
     z-index: 10;
-    color: #888;
+    color: #f0f0f0;
     position: absolute;
     bottom: 2rem;
     animation: bounce 2s infinite;

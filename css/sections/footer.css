@@ -35,6 +35,14 @@
     max-width: 280px;
 }
 
+.footer-tagline {
+    color: #e1306c;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-heading);
+}
+
 .footer-links,
 .footer-credits {
     text-align: right;

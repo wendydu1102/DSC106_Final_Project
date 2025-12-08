@@ -84,16 +84,42 @@
 
 #cloud-cal-grid {
     width: 1024px;
-    height: 50vh;
-    display: grid;
-    grid-template-columns: repeat(31, 1fr);
-    gap: 1px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    /* Gap between month rows */
     z-index: 1;
-    cursor: crosshair;
+    /* Removed cursor: crosshair from container, maybe keep on cells */
+}
+
+.month-row {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    /* Fixed height for consistency */
+    gap: 2px;
+    /* Gap between days */
+}
+
+.month-label {
+    width: 40px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #666;
+    text-align: right;
+    padding-right: 10px;
+    font-family: var(--font-display, sans-serif);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .cal-cell {
-    width: 100%;
+    width: 25px;
+    /* Fixed width per day approx */
+    flex: 1;
+    /* evenly distribute */
     height: 100%;
     background: #fff;
     position: relative;

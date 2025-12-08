@@ -1,0 +1,113 @@
+/* Section Navigator */
+#section-navigator {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    gap: 10px;
+    /* Consistent spacing */
+    z-index: 1000;
+
+    /* Professional Dark Glass Container (High Contrast) */
+    background: rgba(20, 20, 20, 0.65);
+    /* Dark tint visible on white */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 12px 6px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Subtle border for dark bg */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.nav-dot {
+    width: 20px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.5);
+    /* Clear white against dark pill */
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    box-shadow: none;
+}
+
+/* Level 1: Dashes */
+.nav-dot[data-level="1"] {
+    width: 20px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.7);
+    /* Brighter for main */
+}
+
+/* Level 2: Circles */
+.nav-dot[data-level="2"] {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Active State - Professional highlight */
+.nav-dot.active {
+    background: #e1306c;
+    width: 28px;
+    box-shadow: none;
+    opacity: 1;
+}
+
+/* Active Specifics */
+.nav-dot[data-level="1"].active {
+    width: 28px;
+    background: #e1306c;
+}
+
+.nav-dot[data-level="2"].active {
+    width: 8px;
+    height: 8px;
+    background: #e1306c;
+}
+
+.nav-dot:hover {
+    background: #e1306c;
+    opacity: 0.8;
+}
+
+.nav-dot[data-level="2"]:hover {
+    width: 7px;
+    height: 7px;
+}
+
+/* Dark Mode Adaptation (If user is on dark sections) */
+/* We can add a class to body or check section, but simpler is a hard shadow or border */
+/* Halo to work on dark bg */
+
+/* Tooltip Label (Visible on Hover) */
+.nav-label {
+    position: absolute;
+    right: 35px;
+    /* Offset for wider bars */
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-family: var(--font-body, sans-serif);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s;
+    transform: translateX(5px);
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.nav-dot:hover .nav-label {
+    opacity: 1;
+    transform: translateX(0);
+}

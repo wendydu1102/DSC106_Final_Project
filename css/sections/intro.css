@@ -48,8 +48,71 @@
     font-weight: 700;
 }
 
-.prose-bridge em {
-    background: #fffec8;
-    font-style: normal;
-    padding: 0 4px;
+/* Aesthetic Part Divider */
+.part-divider {
+    padding: 8rem 2rem 4rem;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.part-number {
+    font-family: 'Oswald', sans-serif;
+    font-size: 8rem;
+    font-weight: 700;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.05);
+    /* Subtle watermark style */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.part-content h2 {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    color: #111;
+    margin-bottom: 1rem;
+    display: inline-block;
+    position: relative;
+    padding-bottom: 2rem;
+    /* Initial space for the span */
+}
+
+/* Decorative Line */
+.part-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: #e1306c;
+    /* Accent color */
+}
+
+.part-content p {
+    font-size: 1.25rem;
+    color: #555;
+    max-width: 600px;
+    margin: 1.5rem auto 0;
+    line-height: 1.6;
+}
+
+/* Specific variants if needed */
+.part-divider.dark-mode .part-number {
+    color: rgba(255, 255, 255, 0.05);
+}
+
+.part-divider.dark-mode h2 {
+    color: #fff;
+}
+
+.part-divider.dark-mode p {
+    color: #ccc;
 }
