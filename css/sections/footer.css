@@ -1,0 +1,118 @@
+/* Footer */
+/* Minimal Aesthetic Footer */
+.site-footer {
+    background: #ffffff;
+    color: var(--text-color);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 3rem 2rem 1rem;
+    /* Reduced bottom padding */
+    margin-top: auto;
+    /* Sticky footer push */
+    font-family: var(--font-body);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-bottom: 3rem;
+}
+
+.footer-brand h3 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: #111;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+.footer-brand p {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    max-width: 280px;
+}
+
+.footer-links,
+.footer-credits {
+    text-align: right;
+}
+
+.footer-heading {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    display: inline-block;
+    margin-left: 1.5rem;
+}
+
+.footer-links a {
+    color: #444;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: #000;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.85rem;
+    color: #888;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .footer-links,
+    .footer-credits {
+        text-align: center;
+    }
+
+    .footer-links li {
+        margin: 0 0.75rem;
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+
+    .cp-dashboard,
+    .lab-container,
+    .city-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+}

@@ -1,0 +1,30 @@
+/* Global Variables & Reset */
+:root {
+    --bg-color: #fdfbf7;
+    --text-color: #2b2b2b;
+    --accent-sun: #f4d03f;
+    --accent-cloud: #aed6f1;
+    --primary-blue: #2c3e50;
+    --gray-light: #e0e0e0;
+    --gray-mid: #999;
+    --gray-dark: #555;
+    --panel-bg: #ffffff;
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --border-light: 1px solid #eee;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+}

@@ -1,0 +1,242 @@
+/* --- SECTION 2: CLOUD WALL --- */
+.scrolly-container {
+    position: relative;
+    width: 100%;
+}
+
+.sticky-viz {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    background: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.viz-header {
+    width: 90%;
+    max-width: 1024px;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.viz-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    background: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+    pointer-events: auto;
+}
+
+.viz-btn {
+    border: none;
+    background: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #999;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.viz-btn:hover {
+    color: #333;
+    background: #f5f5f5;
+}
+
+.viz-btn.active {
+    color: #000;
+    background: #f4d03f;
+}
+
+.viz-legend {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.gradient-bar {
+    width: 100px;
+    height: 10px;
+    background: linear-gradient(to right, #f4d03f, #333);
+    border-radius: 5px;
+}
+
+#cloud-cal-grid {
+    width: 1024px;
+    height: 50vh;
+    display: grid;
+    grid-template-columns: repeat(31, 1fr);
+    gap: 1px;
+    z-index: 1;
+    cursor: crosshair;
+}
+
+.cal-cell {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.cal-cell:hover {
+    transform: scale(3);
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Split Layers */
+.am-layer,
+.pm-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.5s, clip-path 0.5s;
+    background-color: transparent;
+}
+
+/* Default / Compare Mode (Both) */
+#cloud-cal-grid.view-both .am-layer {
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    z-index: 2;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#cloud-cal-grid.view-both .pm-layer {
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    z-index: 1;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Morning Mode (Full Square) */
+#cloud-cal-grid.view-morning .am-layer {
+    clip-path: none;
+    z-index: 10;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#cloud-cal-grid.view-morning .pm-layer {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Afternoon Mode (Full Square) */
+#cloud-cal-grid.view-afternoon .pm-layer {
+    clip-path: none;
+    z-index: 10;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#cloud-cal-grid.view-afternoon .am-layer {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Border on highlighted layers */
+.cal-cell:hover .am-layer,
+.cal-cell:hover .pm-layer {
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Satellite Tooltip for Calendar */
+#cal-sat-preview {
+    position: absolute;
+    pointer-events: none;
+    width: 200px;
+    height: 150px;
+    background: #000;
+    border: 2px solid #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.2s;
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.5rem;
+}
+
+#cal-sat-preview span {
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Steps Overlay */
+.scroll-steps {
+    position: relative;
+    z-index: 10;
+    margin-top: -50vh;
+    pointer-events: none;
+    padding-bottom: 50vh;
+}
+
+.step {
+    min-height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 10%;
+}
+
+.step:nth-child(even) {
+    justify-content: flex-end;
+    padding-right: 10%;
+    padding-left: 0;
+}
+
+.step-content {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem 2.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    text-align: left;
+    pointer-events: auto;
+    backdrop-filter: blur(10px);
+    border-radius: 4px;
+    transition: opacity 0.5s;
+}
+
+.step-content h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #111;
+}
+
+.step-content p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #444;
+    margin: 0;
+}

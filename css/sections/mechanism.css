@@ -1,0 +1,152 @@
+/* MECHANISM SCROLLYTELLING CROSS-SECTION */
+#mechanism-section {
+    position: relative;
+    width: 100%;
+    background: #0f172a;
+    color: white;
+}
+
+.mech-sticky-stage {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 10;
+    /* Sky Gradient */
+    background: linear-gradient(to bottom, #020617 0%, #172554 100%);
+}
+
+#mech-canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    /* Above backround, below text */
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* OVERLAY UI */
+.mech-overlay-ui {
+    position: absolute;
+    bottom: 2rem;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 50;
+    pointer-events: none;
+}
+
+.mech-control-deck {
+    pointer-events: all;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.mech-control-deck.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+.mech-time {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #cbd5e1;
+}
+
+input[type=range]#mech-scrubber {
+    -webkit-appearance: none;
+    width: 300px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    outline: none;
+}
+
+input[type=range]#mech-scrubber::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #ffffff;
+    border: 4px solid #3b82f6;
+    border-radius: 50%;
+    cursor: grab;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+}
+
+/* SCROLL TEXT STEPS */
+.mech-scroll-text {
+    position: relative;
+    z-index: 20;
+    padding-bottom: 20vh;
+    pointer-events: none;
+}
+
+.mech-step {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 5%;
+}
+
+.mech-step.spacer {
+    min-height: 50vh;
+}
+
+.mech-card {
+    background: rgba(15, 23, 42, 0.85);
+    /* Dark Glass */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 400px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.5s, transform 0.5s;
+    pointer-events: all;
+    /* Move card lower so it doesn't block mountains */
+    margin-top: 20vh;
+}
+
+.mech-step.active .mech-card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mech-step:not(.active) .mech-card {
+    opacity: 0.3;
+}
+
+.mech-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin: 0 0 0.5rem 0;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.mech-card p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+    margin: 0;
+}

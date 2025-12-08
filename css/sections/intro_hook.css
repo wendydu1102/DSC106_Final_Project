@@ -1,0 +1,783 @@
+/* INTRO HOOK OVERLAY */
+#intro-hook {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    pointer-events: all;
+    transition: opacity 1s ease-out;
+}
+
+#intro-hook.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.intro-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    pointer-events: none;
+    /* Block clicks when hidden */
+}
+
+.intro-slide.active {
+    opacity: 1;
+    z-index: 10;
+    pointer-events: all;
+}
+
+/* === SLIDE 1: SOCIAL MEDIA STORY INPUT === */
+.story-bg-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    width: 100%;
+    height: 100%;
+    /* Sunset Vibe */
+    background: linear-gradient(to bottom, #f97316, #ec4899, #8b5cf6);
+    /* Sunset Vibe */
+    z-index: -1;
+}
+
+.story-ui-header {
+    position: absolute;
+    top: 40px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.story-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.story-avatar {
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.story-sticker-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 90%;
+    width: 400px;
+    transform: rotate(-2deg);
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.story-question {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    color: #333;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.story-input-wrapper {
+    display: flex;
+    background: #f3f4f6;
+    border-radius: 30px;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+#intro-word-input {
+    border: none;
+    background: transparent;
+    padding: 10px 15px;
+    flex: 1;
+    outline: none;
+    font-size: 1rem;
+    font-weight: 400;
+    /* Regular weight */
+    color: #333;
+}
+
+#intro-word-submit {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 400;
+    /* Regular weight */
+}
+
+.story-chips-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.story-chip {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 10px 20px;
+    border-radius: 30px;
+    color: white;
+    font-weight: 400;
+    cursor: pointer;
+    transition: transform 0.2s;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.story-chip:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+
+
+.hashtag-header {
+    font-size: 0.9rem;
+    /* Smaller, cleaner */
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+    margin-left: 0;
+    /* Center it */
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 8px 18px;
+    border-radius: 100px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+}
+
+.viz-title {
+    color: #fff;
+    font-size: 2.5rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.viz-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 500;
+    font-family: "Inter", sans-serif;
+}
+
+#intro-word-cloud {
+    width: 90%;
+    max-width: 900px;
+    height: 60vh;
+    max-height: 600px;
+    min-height: 350px;
+    margin: 0 auto 2rem auto;
+    position: relative;
+    border-radius: 40px;
+
+    /* Dark Glass Aesthetic */
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+
+    display: flex;
+    /* Centering SVG */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Tooltip: Instagram "Tag" Style */
+.word-tooltip {
+    position: fixed;
+    background: rgba(38, 38, 38, 0.95);
+    /* Dark gray/black like IG tags */
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    /* Slightly tighter radius */
+    font-size: 0.85rem;
+    font-weight: 600;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -140%);
+    /* Lift higher */
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Arrow for tag */
+.word-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    /* Stick closer */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px 5px 0;
+    border-style: solid;
+    border-color: rgba(38, 38, 38, 0.95) transparent transparent transparent;
+}
+
+
+
+
+/* === STORY PROGRESS BAR === */
+.story-progress-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    height: 4px;
+    display: flex;
+    gap: 4px;
+    /* Instagram gap */
+    z-index: 200;
+}
+
+.story-progress-bar {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    height: 100%;
+    overflow: hidden;
+    cursor: pointer;
+    /* Clickable */
+}
+
+.story-progress-bar .progress-fill {
+    width: 0%;
+    height: 100%;
+    background: #fff;
+    transition: width 0s;
+    /* Reset default to instant for clearing */
+}
+
+/* Active: Linear Fill Animation */
+.story-progress-bar.active .progress-fill {
+    width: 100%;
+    transition: width 15s linear;
+    /* "Story" timer feel */
+}
+
+/* Completed: Always full, instant */
+.story-progress-bar.completed .progress-fill {
+    width: 100%;
+    transition: none;
+}
+
+/* Hover hint */
+.story-progress-bar:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+
+/* === MINIMAL NAVIGATION BUTTONS === */
+.intro-back-btn {
+    position: absolute;
+    top: 30px;
+    /* Below progress bar */
+    left: 10px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 100;
+    opacity: 0.8;
+    transition: opacity 0.2s, transform 0.2s;
+    /* Minimal Chevron Style */
+    font-size: 1.5rem;
+    line-height: 1;
+    font-family: system-ui, -apple-system, sans-serif;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.intro-back-btn:hover {
+    opacity: 1;
+    transform: translateX(-3px);
+    background: transparent;
+}
+
+.intro-back-btn.dark {
+    color: #000;
+    text-shadow: none;
+}
+
+.intro-back-btn.light {
+    color: #fff;
+}
+
+
+/* === VISUAL TRANSITIONS === */
+.intro-overlay {
+    transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+    /* Ensure hardware acceleration */
+    will-change: transform;
+}
+
+.intro-overlay.slide-out {
+    transform: translateX(-100%);
+}
+
+/* === SLIDE 3: REALITY (Insta Vibe) === */
+.slide-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(0.2) contrast(1.1);
+    z-index: 1;
+}
+
+#intro-fog-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    /* On top of BG */
+    mix-blend-mode: normal;
+}
+
+/* Insta Overlay Text Main Container (Kept for layout) */
+.insta-story-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 80px 20px 40px;
+    pointer-events: none;
+}
+
+.story-user-tag {
+    display: inline-flex;
+    /* Changed from flex to inline-flex to wrap tight */
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    /* Shadow restored */
+    background: none;
+    /* Removed background pill */
+    padding: 0;
+    backdrop-filter: none;
+    align-self: flex-start;
+    /* Ensure left align */
+}
+
+/* ... Avatar/Time kept ... */
+
+/* Main Caption */
+.story-text-overlay {
+    font-size: 3.5rem;
+    color: #fff;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 900;
+    line-height: 1.6;
+    /* Increased for separation */
+    margin: 1rem 0;
+
+    /* Background Highlight Style */
+    background: rgba(0, 0, 0, 0.55);
+    /* Slightly lighter dark */
+    display: inline;
+    /* Crucial for wrapping stripes */
+    padding: 8px 12px;
+    /* Hugs text */
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    border-radius: 8px;
+    /* Rounded corners on each stripe */
+}
+
+.story-avatar-small {
+    width: 32px;
+    height: 32px;
+    background: #ccc;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.story-time {
+    font-weight: 400;
+    opacity: 0.8;
+    font-size: 0.9em;
+}
+
+.reality-center-text {
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.reality-center-text h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+}
+
+.reality-center-text p {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.swipe-hint-container {
+    display: flex;
+    justify-content: center;
+    pointer-events: auto;
+    /* Buttons clickable */
+}
+
+.swipe-hint {
+    margin-top: 2rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.8);
+    /* Dark background requested */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 12px 28px;
+    border-radius: 50px;
+    /* Pill shape */
+    cursor: pointer;
+    z-index: 20;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s, background 0.2s;
+    text-transform: none;
+    /* Cleaner look */
+    pointer-events: auto;
+}
+
+/* === ARTICLE LINK LAYER (Slide 3 Underneath) === */
+.article-card {
+    background: rgba(255, 255, 255, 0.95);
+    width: 80%;
+    max-width: 350px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.95);
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s;
+    opacity: 0.5;
+    /* Dimmed initially under fog */
+}
+
+/* When fog is cleared, pop the card */
+.fog-cleared .article-card {
+    transform: scale(1);
+    opacity: 1;
+    cursor: pointer;
+    box-shadow: 0 20px 50px rgba(255, 255, 255, 0.2);
+}
+
+.article-card-header {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.article-card-header span {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.article-thumbnail {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.article-info {
+    padding: 16px;
+    text-align: left;
+}
+
+.article-info h3 {
+    margin: 0 0 8px 0;
+    color: #000;
+    font-size: 1.1rem;
+    line-height: 1.3;
+}
+
+.article-info p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.article-cta {
+    background: #f5f5f5;
+    color: #0095f6;
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-top: 1px solid #eee;
+    transition: background 0.2s;
+}
+
+.article-card:hover .article-cta {
+    background: #eee;
+}
+
+/* Initial State of Overlays */
+.fog-text-overlay {
+    transition: opacity 1s;
+}
+
+.fog-cleared .fog-text-overlay {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.fog-cleared #intro-fog-layer {
+    transition: opacity 1s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* === STORY ELEMENTS (Slide 2 & 3) === */
+.story-content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    position: relative;
+    padding-bottom: 40px;
+    /* Space for nav hint */
+}
+
+/* Location Tag */
+.location-sticker {
+    background: rgba(255, 255, 255, 0.85);
+    color: #0095f6;
+    /* Insta Blue */
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transform: rotate(2deg);
+    backdrop-filter: blur(5px);
+    display: inline-block;
+}
+
+/* Time Sticker (Instagram Flip Clock Style) */
+.time-sticker {
+    background: transparent;
+    /* No container bg */
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    display: inline-flex;
+    gap: 4px;
+    /* Gap between Hour/Min blocks */
+    transform: rotate(2deg);
+    font-family: 'Oswald', 'Impact', sans-serif;
+    /* Tall condensed font */
+}
+
+.time-block {
+    background: #333;
+    /* Dark Grey */
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    position: relative;
+    min-width: 44px;
+    text-align: center;
+    line-height: 1;
+    overflow: hidden;
+    /* For shine effect? */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Flip Split Line */
+.time-block::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.5);
+    /* Dark split */
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+    /* Highlight below */
+}
+
+/* The Red Line from the reference image */
+.time-block::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #ff4444;
+    /* Red accent line */
+    z-index: 2;
+    opacity: 0.8;
+}
+
+.time-ampm {
+    font-size: 0.8rem;
+    align-self: flex-end;
+    margin-bottom: 5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    margin-left: 2px;
+}
+
+/* Main Caption */
+.story-text-overlay {
+    font-size: 3.5rem;
+    color: #fff;
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    /* System font for native feel */
+    font-weight: 900;
+    line-height: 1.1;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    margin: 1rem 0;
+}
+
+/* Hashtags */
+.hashtag-container {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    transform: rotate(-3deg);
+}
+
+.hashtag-container span {
+    margin: 0 4px;
+    color: #fff;
+}
+
+/* GIF Sticker Simulation */
+.gif-sticker {
+    background: linear-gradient(45deg, #ff00cc, #333399);
+    color: white;
+    padding: 5px 10px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    font-style: italic;
+    border: 2px solid #fff;
+    transform: rotate(5deg) scale(1.1);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
+    animation: wiggle 2s infinite ease-in-out;
+}
+
+@keyframes wiggle {
+
+    0%,
+    100% {
+        transform: rotate(5deg) scale(1.1);
+    }
+
+    50% {
+        transform: rotate(7deg) scale(1.15);
+    }
+}
+
+/* === NAVIGATION BUTTONS === */
+.intro-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 1000;
+    /* Top most */
+    backdrop-filter: blur(4px);
+    transition: background 0.2s, transform 0.2s;
+}
+
+.intro-close-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: scale(1.1);
+}

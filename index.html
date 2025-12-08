@@ -11,8 +11,26 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap"
         rel="stylesheet">
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <!-- CSS Modules -->
+    <!-- Base Styles -->
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/typography.css">
+    <link rel="stylesheet" href="css/base/utilities.css">
+    <!-- Section Styles -->
+    <link rel="stylesheet" href="css/sections/hero.css">
+    <link rel="stylesheet" href="css/sections/intro.css">
+    <link rel="stylesheet" href="css/sections/intro_hook.css">
+    <link rel="stylesheet" href="css/sections/cloud-wall.css">
+    <link rel="stylesheet" href="css/sections/cloud-playground.css">
+    <link rel="stylesheet" href="css/sections/climate-lab.css">
+    <link rel="stylesheet" href="css/sections/mechanism.css">
+    <link rel="stylesheet" href="css/sections/city-playground.css">
+    <link rel="stylesheet" href="css/sections/footer.css">
+    <link rel="stylesheet" href="css/sections/realtime_clouds.css">
+
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
     <!-- Mapbox -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
@@ -20,17 +38,200 @@
 
 <body>
 
-    <!-- SECTION 1: HERO -->
-    <section class="hero">
-        <div id="hero-grid-bg"></div>
-        <canvas id="fog-overlay"></canvas>
-        <div class="hero-content">
-            <div class="title-wrapper">
-                <h1 class="hero-title">The Gray Truth of Sunny SoCal</h1>
-            </div>
-            <p class="hero-subtitle">Visualizing 365 days of cloud cover in 2023.</p>
-            <p class="interaction-hint">Move your cursor to clear the morning fog</p>
+    <!-- INTRO HOOK (Overlay) -->
+    <div id="intro-hook" class="intro-overlay">
+        <!-- Close/Skip Button -->
+        <div id="intro-skip-btn" class="intro-close-btn">✕</div>
+
+        <!-- Story Progress Bars (Now 5 Segments) -->
+        <div class="story-progress-container">
+            <div class="story-progress-bar active">
+                <div class="progress-fill"></div>
+            </div> <!-- 1: Question -->
+            <div class="story-progress-bar">
+                <div class="progress-fill"></div>
+            </div> <!-- 1.5: Word Cloud -->
+            <div class="story-progress-bar">
+                <div class="progress-fill"></div>
+            </div> <!-- 2: Fantasy -->
+            <div class="story-progress-bar">
+                <div class="progress-fill"></div>
+            </div> <!-- 3: Reality (Fog) -->
+            <div class="story-progress-bar">
+                <div class="progress-fill"></div>
+            </div> <!-- 4: Article (Card) -->
         </div>
+        <button class="intro-back-btn light" onclick="app.introHook.navigate(-1)">&lsaquo;</button>
+        <div class="intro-slide active" data-slide="1">
+            <div class="story-bg-gradient"></div>
+            <div class="story-ui-header">
+                <div class="story-user">
+                    <div class="story-avatar"></div>
+                    <span>WAVS</span>
+                </div>
+                <div class="story-time">2h</div>
+            </div>
+
+            <div class="story-sticker-container">
+                <h1 class="story-question">If gives one word to describe SoCal, what would it be?</h1>
+                <div class="story-input-wrapper">
+                    <input type="text" id="intro-word-input" placeholder="Type something..." autocomplete="off">
+                    <button id="intro-word-submit">POST</button>
+                </div>
+            </div>
+
+            <div class="story-chips-container">
+                <div class="story-chip" onclick="app.introHook.fillInput('Sunshine')">Sunshine ☀️</div>
+                <div class="story-chip" onclick="app.introHook.fillInput('Palm Trees')">Palm Trees 🌴</div>
+                <div class="story-chip" onclick="app.introHook.fillInput('Surfing')">Surfing 🏄‍♂️</div>
+                <div class="story-chip" onclick="app.introHook.fillInput('Hollywood')">Hollywood 🎬</div>
+            </div>
+        </div>
+
+        <!-- Slide 1.5: Collective Mindset (Word Cloud Viz) -->
+        <div class="intro-slide" data-slide="1.5">
+            <div class="story-bg-gradient"></div>
+            <div class="hashtag-header">#SoCalMindset</div>
+            <h2 class="viz-title">What everyone is saying</h2>
+            <p class="viz-subtitle">Trending words from 24.5k locals</p>
+            <div id="intro-word-cloud"></div>
+        </div>
+
+        <!-- Slide 2: The Fantasy (Sunny Image) -->
+        <div class="intro-slide" data-slide="2">
+            <div class="slide-bg-image" style="background-image: url('assets/sunny_beach.jpg');"></div>
+
+            <div class="insta-story-overlay">
+                <!-- Header -->
+                <div class="story-user-tag">
+                    <div class="story-avatar-small"
+                        style="background-image: url('data/goes_images_monthly/2023-01/20230101_1602.webp'); background-size: cover;">
+                    </div>
+                    <span>WAVS</span>
+                    <span class="story-time">16h</span>
+                </div>
+
+                <!-- Story Content -->
+                <div class="story-content-wrapper">
+                    <!-- Location Sticker -->
+                    <div class="story-sticker location-sticker">
+                        📍 Scripps Beach, La Jolla
+                    </div>
+                    <!-- Time Sticker -->
+                    <div class="story-sticker time-sticker" style="transform: rotate(2deg);">
+                        <div class="time-block">04</div>
+                        <div class="time-block">20</div>
+                        <div class="time-ampm">PM</div>
+                    </div>
+
+                    <!-- Main Text -->
+                    <h1 class="story-text-overlay" style="transform: rotate(-2deg);">
+                        Sunny <br> <span style="color: #FFD700;">San Diego!</span> ☀️🌊
+                    </h1>
+
+                    <!-- Hashtags -->
+                    <div class="story-sticker hashtag-container">
+                        <span>#SoCal</span> <span>#NoClouds</span> <span>#Paradise</span>
+                    </div>
+
+                    <!-- "Hot" GIF/Sticker placeholder -->
+                    <div class="story-sticker gif-sticker">
+                        🔥 SUMMER VIBES
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Reality Check (Fog Phase) -->
+        <div class="intro-slide" data-slide="3">
+            <!-- 1. Background Image (Revealed when fog scratched) -->
+            <div class="slide-bg-image"
+                style="background-image: url('data/goes_images_monthly/2023-03/20230319_2202.webp');"></div>
+
+            <!-- 2. Fog Layer (Middle) -->
+            <div id="intro-fog-layer" class="fog-overlay" style="z-index: 5;"></div>
+
+            <!-- 3. Fog Text Overlay (Top) - Fades out on scratch -->
+            <div class="insta-story-overlay fog-text-overlay" style="z-index: 10;">
+                <div class="story-user-tag">
+                    <div class="story-avatar-small" style="background-color: #555;"></div>
+                    <span>WAVS</span>
+                    <span class="story-time">1h</span>
+                </div>
+
+                <div class="story-content-wrapper">
+                    <!-- Location Sticker -->
+                    <div class="story-sticker location-sticker" style="color: #555;">
+                        📍 La Jolla, CA
+                    </div>
+                    <!-- Time Sticker -->
+                    <div class="story-sticker time-sticker" style="transform: rotate(-1deg); margin-top:10px;">
+                        <div class="time-block">07</div>
+                        <div class="time-block">45</div>
+                        <div class="time-ampm">AM</div>
+                    </div>
+
+                    <!-- Main Text -->
+                    <h1 class="story-text-overlay" style="transform: rotate(1deg);">
+                        What the <br> <span style="font-size:1.1em; font-weight:900;">FOG?!</span> 🌫️
+                    </h1>
+                    <!-- Hashtags -->
+                    <div class="story-sticker hashtag-container">
+                        <span>#SoCal</span> <span>#Foggy</span> <span>#JuneGloom</span>
+                    </div>
+
+                    <div class="swipe-hint-container">
+                        <div id="intro-swipe-btn" class="swipe-hint">
+                            Scratch to remove fog
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Real Story (Article Card) -->
+        <div class="intro-slide" data-slide="4">
+            <!-- Background Blur -->
+            <div class="article-bg-blur"
+                style="position:absolute; width:100%; height:100%; background-image: url('data/goes_images_monthly/2023-03/20230319_2202.webp'); background-size: cover; filter: blur(20px); opacity: 0.5;">
+            </div>
+
+            <!-- Article Card -->
+            <div class="article-card" id="intro-article-card" style="z-index: 10; opacity: 1; transform: scale(1);">
+                <div class="article-card-header">
+                    <div class="story-avatar-small" style="background-color: #555;"></div>
+                    <span>WAVS</span>
+                </div>
+                <div class="article-thumbnail"
+                    style="background-image: url('data/goes_images_monthly/2023-03/20230319_2202.webp');"></div>
+                <div class="article-info">
+                    <h3>The Gray Truth of Sunny SoCal</h3>
+                    <p>Why May Gray and June Gloom dominate the coast.</p>
+                </div>
+                <div class="article-cta">
+                    Tap to Read Full Story &rarr;
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 1: HERO (Title & Hook) -->
+    <section class="hero">
+        <!-- Replay Story Button -->
+        <div id="replay-story-btn" class="story-replay-badge">
+            <div class="story-avatar-tiny" style="background-image: url('assets/sunny_beach.HEIC');"></div>
+            <span>Watch Story</span>
+        </div>
+
+        <div class="hero-grid" id="hero-grid">
+            <!-- Grid of 100 images will be injected here by JS -->
+        </div>
+
+        <div class="hero-content">
+            <h1 class="hero-title">The Gray Truth of Sunny SoCal</h1> <br>
+            <p class="hero-subtitle">Visualizing 365 days of cloud cover in 2023.</p>
+        </div>
+        <canvas id="fog-overlay"></canvas>
         <div class="scroll-prompt">Scroll for Analysis</div>
     </section>
 
@@ -221,7 +422,76 @@
 
 
 
-    <!-- BRIDGE 2 -->
+    <!-- BRIDGE 2: PREPARING FOR MECHANISM -->
+    <section class="prose-bridge">
+        <h2>The Engine of Gloom</h2>
+        <p>Why does the coast stay gray while the desert burns? It is a battle of density. The cool, heavy ocean air
+    </section>
+
+    <!-- SECTION 3.5: MECHANISM VIZ (SCROLLYTELLING REDESIGN) -->
+    <section id="mechanism-section" class="scrolly-container bg-dark">
+
+        <!-- STICKY VIZ -->
+        <div class="mech-sticky-stage">
+            <div id="mech-canvas-container"></div>
+
+            <!-- Dynamic UI Overlay (Changes by Step) -->
+            <div class="mech-overlay-ui">
+                <div class="mech-control-deck hidden" id="mech-final-controls">
+                    <span class="mech-time">6:00 AM</span>
+                    <input type="range" id="mech-scrubber" min="0" max="100" value="0" step="0.5">
+                    <span class="mech-time">6:00 PM</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCROLLING STEPS -->
+        <div class="mech-scroll-text">
+
+            <!-- Step 1: The Normal Atmosphere -->
+            <div class="mech-step" data-step="1">
+                <div class="mech-card">
+                    <h3>1. The Normal Atmosphere</h3>
+                    <p>Usually, the air is open. As you go higher, the air gets cooler and lighter. Clouds can rise
+                        freely and dissipate into the atmosphere efficiently.</p>
+                </div>
+            </div>
+
+            <!-- Step 2: The Inversion Lid -->
+            <div class="mech-step" data-step="2">
+                <div class="mech-card">
+                    <h3>2. The Inversion Layer</h3>
+                    <p>But in June, a layer of hot, sinking air sits on top of the cool marine layer. This creates a
+                        <strong>temperature inversion</strong>—an invisible "warm lid" that traps the cool, moist air
+                        below.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 3: The Coastal Trap -->
+            <div class="mech-step" data-step="3">
+                <div class="mech-card">
+                    <h3>3. The Trap</h3>
+                    <p>The cool ocean breeze blows inland, pushing the marine layer against the mountains. Trapped
+                        between the mountains and the inversion lid, the fog compresses into a thick, gray blanket over
+                        the coast.</p>
+                </div>
+            </div>
+
+            <!-- Step 4: The Interactive Burn-Off -->
+            <div class="mech-step" data-step="4">
+                <div class="mech-card">
+                    <h3>4. The Burn-Off</h3>
+                    <p>The only escape is heat. As the sun rises, it warms the ground, heating the air from below. This
+                        mixes out the marine layer and "burns off" the fog.</p>
+                    <p><strong>Control the Sun:</strong> Scrub the slider to burn off the marine layer.</p>
+                </div>
+            </div>
+
+            <div class="mech-step spacer" style="height: 50vh;"></div>
+
+        </div>
+    </section>
     <section class="prose-bridge">
         <h2>Quantifying the "Vibe"</h2>
         <p>Clouds are only one part of the equation. The "SoCal Vibe"—that specific feeling of warmth and light—is a
@@ -284,8 +554,25 @@
             <div class="city-sidebar">
                 <div class="sidebar-header" style="margin-bottom:1.5rem; text-align: left;">
                     <h2 style="font-size:1.5rem; margin-bottom:0.5rem;">The Location Optimizer</h2>
-                    <p style="font-size:0.9rem; margin:0; color:#666;">Where should you live? Adjust weights to find
-                        your match.</p>
+                    your match.</p>
+                </div>
+
+                <!-- Search -->
+                <div class="search-wrapper" style="margin-bottom: 1.5rem; position: relative;">
+                    <div class="search-input-box"
+                        style="display: flex; align-items: center; background: #f5f5f5; border-radius: 8px; padding: 0.5rem 0.8rem; border: 1px solid transparent; transition: all 0.2s;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="city-search-input" placeholder="Find your city..." autocomplete="off"
+                            style="flex: 1; border: none; background: transparent; padding-left: 0.5rem; outline: none; font-size: 0.95rem; font-family: inherit; color: #333;">
+                        <button id="search-clear-btn"
+                            style="border: none; background: none; cursor: pointer; color: #999; display: none; padding: 2px;">✕</button>
+                    </div>
+                    <!-- Custom Dropdown Results -->
+                    <ul id="city-search-results" class="search-results-list" style="display: none;"></ul>
                 </div>
 
                 <div class="city-filters panel">
@@ -320,14 +607,82 @@
         </div>
     </section>
 
+
+
+
+
+    <!-- SECTION 6: REAL-TIME CLOUDS -->
+    <section id="today-clouds" class="realtime-clouds-section">
+        <h2>
+            <span class="live-indicator"><span class="live-pulse"></span>LIVE</span>
+            Real-time Clouds Over West Coast
+            <p>See the latest 4-hour cloud cover conditions in real-time, updated every 30 minutes.</p>
+        </h2>
+
+        <div class="cloud-gif-container">
+            <img id="psw-loop" alt="GOES-18 GeoColor animated loop for the Pacific Southwest" />
+        </div>
+
+        <p class="source-caption">
+            GOES-18 GeoColor Satellite Loop (Pacific Southwest Sector) • Data courtesy of NOAA NESDIS STAR
+        </p>
+    </section>
+
     <!-- FOOTER -->
-    <footer>
-        <p>DSC 106 Final Project | Data Sources: GOES-16 Satellite Imagery, Local Weather Stations (2023)</p>
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>
+                    <cross>Sunny</cross> Cloudy Socal
+                </h3>
+                <p>Decoding Southern California's "Sunny" Reputation through Data.</p>
+            </div>
+
+            <div class="footer-links">
+                <span class="footer-heading">Data Sources</span>
+                <ul>
+                    <li><a href="https://www.star.nesdis.noaa.gov/GOES/index.php" target="_blank">NOAA GOES-16/18</a>
+                    </li>
+                    <li><a href="https://www.ipcc.ch/" target="_blank">CMIP6</a>
+                    <li><a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap</a></li>
+                    <li><a href="https://www.mapbox.com/" target="_blank">Mapbox</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2023 University of California, San Diego. DSC 106 Final Project.
+        </div>
     </footer>
 
-    <!-- LOGIC -->
+    <!-- LOGIC (JS Modules) -->
     <script src="data/goes_images_index.js"></script>
+    <script src="data/real_cloud_data.js"></script>
     <script src="data/data.js"></script>
+
+    <!-- Core Modules -->
+    <script src="js/config.js"></script>
+    <script src="js/dataset.js"></script>
+
+    <!-- External Data -->
+    <script src="data/word_cloud_data.js"></script>
+
+    <!-- Map & Viz Logic -->
+    <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+
+    <!-- Component Modules -->
+    <script src="js/components/city-ranker.js"></script>
+    <script src="js/components/fog-controller.js"></script>
+    <script src="js/components/intro-hook.js"></script>
+    <script src="js/components/hero-grid.js"></script>
+    <script src="js/components/cloud-wall.js"></script>
+    <script src="js/components/cloud-playground.js"></script>
+    <script src="js/components/gloom-scatter.js"></script>
+    <script src="js/components/climate-lab.js"></script>
+    <script src="js/components/mechanism.js"></script>
+    <script src="js/components/realtime_clouds.js"></script>
+
+
+    <!-- Main Initialization -->
     <script src="js/app.js"></script>
 </body>
 
