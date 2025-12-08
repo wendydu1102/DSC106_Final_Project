@@ -317,41 +317,7 @@
 }
 
 
-/* === MINIMAL NAVIGATION BUTTONS === */
-.intro-back-btn {
-    position: absolute;
-    top: 30px;
-    /* Below progress bar */
-    left: 10px;
-    background: transparent;
-    border: none;
-    color: #fff;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 100;
-    opacity: 0.8;
-    transition: opacity 0.2s, transform 0.2s;
-    /* Minimal Chevron Style */
-    font-size: 1.5rem;
-    line-height: 1;
-    font-family: system-ui, -apple-system, sans-serif;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
 
-.intro-back-btn:hover {
-    opacity: 1;
-    transform: translateX(-3px);
-    background: transparent;
-}
-
-.intro-back-btn.dark {
-    color: #000;
-    text-shadow: none;
-}
-
-.intro-back-btn.light {
-    color: #fff;
-}
 
 
 /* === VISUAL TRANSITIONS === */
@@ -400,114 +366,222 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 80px 20px 40px;
+    padding: 40px 20px 40px;
     pointer-events: none;
 }
 
+/* === NEW INSTAGRAM STYLE HEADER === */
 .story-user-tag {
-    display: inline-flex;
-    /* Changed from flex to inline-flex to wrap tight */
+    display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     color: #fff;
-    font-weight: 600;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-    /* Shadow restored */
-    background: none;
-    /* Removed background pill */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
     padding: 0;
-    backdrop-filter: none;
-    align-self: flex-start;
-    /* Ensure left align */
-}
-
-/* ... Avatar/Time kept ... */
-
-/* Main Caption */
-.story-text-overlay {
-    font-size: 3.5rem;
-    color: #fff;
-    text-align: center;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-weight: 900;
-    line-height: 1.6;
-    /* Increased for separation */
-    margin: 1rem 0;
-
-    /* Background Highlight Style */
-    background: rgba(0, 0, 0, 0.55);
-    /* Slightly lighter dark */
-    display: inline;
-    /* Crucial for wrapping stripes */
-    padding: 8px 12px;
-    /* Hugs text */
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
-    border-radius: 8px;
-    /* Rounded corners on each stripe */
+    pointer-events: none;
+    width: 100%;
 }
 
 .story-avatar-small {
-    width: 32px;
-    height: 32px;
+    width: 38px;
+    /* Slightly larger */
+    height: 38px;
     background: #ccc;
     border-radius: 50%;
-    border: 2px solid #fff;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.story-meta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+}
+
+.story-row-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+}
+
+.story-username {
+    font-weight: 600;
 }
 
 .story-time {
     font-weight: 400;
     opacity: 0.8;
-    font-size: 0.9em;
 }
 
-.reality-center-text {
-    text-align: center;
-    color: #fff;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+.story-music {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 400;
+    opacity: 0.9;
 }
 
-.reality-center-text h1 {
+.music-icon {
+    font-size: 0.7rem;
+}
+
+/* === CONTENT LAYER LAYOUT === */
+.story-content-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Common Sticker Bases */
+.story-sticker {
+    position: absolute;
+    /* Using absolute for precise placement like user drag-drop */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    z-index: 20;
+}
+
+/* 1. Location Sticker (White Pill) */
+.location-sticker.pill-white {
+    top: 18%;
+    right: 5%;
+    background: #fff;
+    color: #000;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transform: rotate(1deg);
+}
+
+/* 2. Time Sticker (Digital Clock Blocks) */
+.time-sticker.digital-clock {
+    top: 26%;
+    right: 5%;
+    transform: rotate(-2deg);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    box-shadow: none;
+    backdrop-filter: none;
+}
+
+.time-group {
+    display: flex;
+    gap: 2px;
+}
+
+.time-digit {
+    font-family: 'Oswald', sans-serif;
+    /* Tall condensed */
+    font-size: 3.5rem;
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 1;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.time-ampm-box {
+    background: rgba(255, 255, 255, 0.7);
+    color: #4c4c4c;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 6px;
+    border-radius: 4px;
+    align-self: center;
+    margin-right: 6px;
+    /* Put AM before? Ref shows AM block then numbers? OR numbers then AM? */
+    /* Ref Sunny: AM block (left smaller), then 9 2 3 */
+    /* Let's reorder in Flex if needed. HTML has Am last. Flex-flow row-reverse? No, just order. */
+    order: -1;
+    height: fit-content;
+    text-transform: uppercase;
+}
+
+/* 3. Hashtag Sticker */
+.hashtag-sticker.pill-white {
+    top: 38%;
+    right: 5%;
+    background: #fff;
+    color: #000;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    transform: rotate(2deg);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* 4. Main Text (Big & Bold) */
+.story-main-text {
+    position: absolute;
+    bottom: 20%;
+    left: 8%;
+    font-family: 'Inter', sans-serif;
+    /* Fallback to Inter, but we want thick */
+    font-weight: 900;
     font-size: 3rem;
-    margin-bottom: 0.5rem;
-    font-weight: 800;
+    color: #fff;
+    line-height: 0.95;
+    text-align: left;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
-.reality-center-text p {
-    font-size: 1.2rem;
-    font-weight: 500;
+.lyric-small {
+    font-size: 1.5rem;
+    /* half of 3rem */
+    font-weight: 700;
+    opacity: 0.9;
+    line-height: 1.1;
 }
 
-.swipe-hint-container {
+/* Ensure GIF sticker is still supported if used, but we removed it in HTML */
+.gif-sticker {
+    /* Legacy support */
+    display: none;
+}
+
+/* === NAVIGATION BUTTONS === */
+.intro-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
     display: flex;
     justify-content: center;
-    pointer-events: auto;
-    /* Buttons clickable */
-}
-
-.swipe-hint {
-    margin-top: 2rem;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    color: #fff;
-    background: rgba(0, 0, 0, 0.8);
-    /* Dark background requested */
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 12px 28px;
-    border-radius: 50px;
-    /* Pill shape */
+    align-items: center;
     cursor: pointer;
-    z-index: 20;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s, background 0.2s;
-    text-transform: none;
-    /* Cleaner look */
-    pointer-events: auto;
+    font-size: 1.2rem;
+    z-index: 1000;
+    /* Top most */
+    backdrop-filter: blur(4px);
+    transition: background 0.2s, transform 0.2s;
 }
 
-/* === ARTICLE LINK LAYER (Slide 3 Underneath) === */
+.intro-close-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: scale(1.1);
+}
+
+/* === RESTORED ARTICLE CARD STYLES === */
 .article-card {
     background: rgba(255, 255, 255, 0.95);
     width: 80%;
@@ -601,183 +675,44 @@
     pointer-events: none;
 }
 
-/* === STORY ELEMENTS (Slide 2 & 3) === */
-.story-content-wrapper {
-    flex: 1;
+/* === FIX SWIPE HINT PRECISIOIN === */
+.swipe-hint-container {
+    position: absolute;
+    bottom: 8%;
+    /* Below the main text which is at 20% */
+    left: 0;
+    width: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    pointer-events: auto;
+    z-index: 30;
+}
+
+.swipe-hint {
+    display: flex;
     align-items: center;
-    gap: 1.5rem;
-    position: relative;
-    padding-bottom: 40px;
-    /* Space for nav hint */
+    gap: 8px;
+    font-size: 1.1rem;
+    color: #2d2d2d;
+    /* Ensure visible against dark fog */
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    animation: hint-pulse 2s infinite ease-in-out;
 }
 
-/* Location Tag */
-.location-sticker {
-    background: rgba(255, 255, 255, 0.85);
-    color: #0095f6;
-    /* Insta Blue */
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transform: rotate(2deg);
-    backdrop-filter: blur(5px);
+.scrub-icon {
     display: inline-block;
+    font-size: 1.4rem;
+    animation: scrub-wipe 1.5s infinite ease-in-out;
 }
 
-/* Time Sticker (Instagram Flip Clock Style) */
-.time-sticker {
-    background: transparent;
-    /* No container bg */
-    padding: 0;
-    border: none;
-    box-shadow: none;
-    backdrop-filter: none;
-    display: inline-flex;
-    gap: 4px;
-    /* Gap between Hour/Min blocks */
-    transform: rotate(2deg);
-    font-family: 'Oswald', 'Impact', sans-serif;
-    /* Tall condensed font */
-}
-
-.time-block {
-    background: #333;
-    /* Dark Grey */
-    color: #fff;
-    font-size: 1.8rem;
-    font-weight: 700;
-    padding: 4px 8px;
-    border-radius: 6px;
-    position: relative;
-    min-width: 44px;
-    text-align: center;
-    line-height: 1;
-    overflow: hidden;
-    /* For shine effect? */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-/* Flip Split Line */
-.time-block::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: rgba(0, 0, 0, 0.5);
-    /* Dark split */
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
-    /* Highlight below */
-}
-
-/* The Red Line from the reference image */
-.time-block::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: #ff4444;
-    /* Red accent line */
-    z-index: 2;
-    opacity: 0.8;
-}
-
-.time-ampm {
-    font-size: 0.8rem;
-    align-self: flex-end;
-    margin-bottom: 5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #fff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    margin-left: 2px;
-}
-
-/* Main Caption */
-.story-text-overlay {
-    font-size: 3.5rem;
-    color: #fff;
-    text-align: center;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    /* System font for native feel */
-    font-weight: 900;
-    line-height: 1.1;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    margin: 1rem 0;
-}
-
-/* Hashtags */
-.hashtag-container {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 8px 16px;
-    border-radius: 8px;
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 500;
-    transform: rotate(-3deg);
-}
-
-.hashtag-container span {
-    margin: 0 4px;
-    color: #fff;
-}
-
-/* GIF Sticker Simulation */
-.gif-sticker {
-    background: linear-gradient(45deg, #ff00cc, #333399);
-    color: white;
-    padding: 5px 10px;
-    font-size: 1.2rem;
-    font-weight: 800;
-    font-style: italic;
-    border: 2px solid #fff;
-    transform: rotate(5deg) scale(1.1);
-    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
-    animation: wiggle 2s infinite ease-in-out;
-}
-
-@keyframes wiggle {
+@keyframes scrub-wipe {
 
     0%,
     100% {
-        transform: rotate(5deg) scale(1.1);
+        transform: translateX(-8px) rotate(-15deg);
     }
 
     50% {
-        transform: rotate(7deg) scale(1.15);
+        transform: translateX(8px) rotate(5deg);
     }
-}
-
-/* === NAVIGATION BUTTONS === */
-.intro-close-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.4);
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-size: 1.2rem;
-    z-index: 1000;
-    /* Top most */
-    backdrop-filter: blur(4px);
-    transition: background 0.2s, transform 0.2s;
-}
-
-.intro-close-btn:hover {
-    background: rgba(0, 0, 0, 0.7);
-    transform: scale(1.1);
 }

@@ -44,11 +44,13 @@ class IntroHook {
 
         // Check if I added this before?
         // Let's just blindly add or increment for now
+        // Check if I added this before?
         const existing = userWords.find(w => w.text.toLowerCase() === text.toLowerCase());
         if (existing) {
             existing.count++;
+            existing.isUser = true; // Ensure flagged
         } else {
-            userWords.push({ text: text, size: 30, count: 1 });
+            userWords.push({ text: text, size: 30, count: 1, isUser: true });
         }
         localStorage.setItem('intro_words', JSON.stringify(userWords));
     }
@@ -259,12 +261,12 @@ class IntroHook {
         if (!text) return;
 
         // Update local memory state
-        const existing = this.words.find(w => w.text.toLowerCase() === text.toLowerCase());
         if (existing) {
             existing.count += 1;
             existing.size += 5;
+            existing.isUser = true;
         } else {
-            this.words.push({ text: text, size: 30, count: 1 });
+            this.words.push({ text: text, size: 30, count: 1, isUser: true });
         }
 
         // Persist to LocalStorage
@@ -319,9 +321,21 @@ class IntroHook {
             .domain([minC, maxC])
             .range([0.5, 1.0]);
 
+        // Sort: User words first (center), then by count
+        this.words.sort((a, b) => {
+            if (a.isUser && !b.isUser) return -1;
+            if (!a.isUser && b.isUser) return 1;
+            return b.count - a.count;
+        });
+
         const layout = d3.layout.cloud()
             .size([w, h])
-            .words(this.words.map(d => ({ text: d.text, size: fontScale(d.count), count: d.count })))
+            .words(this.words.map(d => ({
+                text: d.text,
+                size: fontScale(d.count),
+                count: d.count,
+                isUser: d.isUser // Pass flag
+            })))
             .padding(15) // More padding for "Professional Airiness"
             .rotate(() => 0)
             .font("Inter")
@@ -344,7 +358,9 @@ class IntroHook {
                 .style("font-size", d => d.size + "px")
                 .style("font-family", "Inter")
                 .style("font-weight", 700)
-                .style("fill", "#ffffff")
+                .style("fill", d => d.isUser ? "#FFD700" : "#ffffff") // Gold for user words
+                .style("font-style", d => d.isUser ? "italic" : "normal") // Extra emphasis
+                .style("text-shadow", d => d.isUser ? "0 0 10px rgba(255,215,0,0.5)" : "none") // Glow
                 .style("opacity", d => opacityScale(d.count)) // Depth
                 .style("cursor", "pointer")
                 .attr("text-anchor", "middle")

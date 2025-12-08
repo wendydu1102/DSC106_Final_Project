@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Oswald:wght@400;700&family=Playfair+Display:wght@400;700&display=swap"
         rel="stylesheet">
     <!-- CSS Modules -->
     <!-- Base Styles -->
@@ -61,15 +61,15 @@
                 <div class="progress-fill"></div>
             </div> <!-- 4: Article (Card) -->
         </div>
-        <button class="intro-back-btn light" onclick="app.introHook.navigate(-1)">&lsaquo;</button>
+
         <div class="intro-slide active" data-slide="1">
             <div class="story-bg-gradient"></div>
             <div class="story-ui-header">
                 <div class="story-user">
                     <div class="story-avatar"></div>
                     <span>WAVS</span>
+                    <span class="story-time">2h</span>
                 </div>
-                <div class="story-time">2h</div>
             </div>
 
             <div class="story-sticker-container">
@@ -99,7 +99,7 @@
 
         <!-- Slide 2: The Fantasy (Sunny Image) -->
         <div class="intro-slide" data-slide="2">
-            <div class="slide-bg-image" style="background-image: url('assets/sunny_beach.jpg');"></div>
+            <div class="slide-bg-image" style="background-image: url('assets/sunny_beach.webp');"></div>
 
             <div class="insta-story-overlay">
                 <!-- Header -->
@@ -107,36 +107,50 @@
                     <div class="story-avatar-small"
                         style="background-image: url('data/goes_images_monthly/2023-01/20230101_1602.webp'); background-size: cover;">
                     </div>
-                    <span>WAVS</span>
-                    <span class="story-time">16h</span>
+                    <div class="story-meta">
+                        <div class="story-row-top">
+                            <span class="story-username">WAVS</span>
+                            <span class="story-time">16h</span>
+                        </div>
+                        <div class="story-music">
+                            <span class="music-icon">🎵</span>
+                            <span class="music-text">Albert Hammond · It Never Rains in Southern California</span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Story Content -->
-                <div class="story-content-wrapper">
-                    <!-- Location Sticker -->
-                    <div class="story-sticker location-sticker">
-                        📍 Scripps Beach, La Jolla
+                <!-- Content Layer (Absolute Positioned via CSS) -->
+                <div class="story-content-layer">
+                    <!-- Location -->
+                    <div class="story-sticker location-sticker pill-white">
+                        <span class="loc-icon" style="color: #e1306c;">📍</span> LA JOLLA
                     </div>
-                    <!-- Time Sticker -->
-                    <div class="story-sticker time-sticker" style="transform: rotate(2deg);">
-                        <div class="time-block">04</div>
-                        <div class="time-block">20</div>
-                        <div class="time-ampm">PM</div>
+
+                    <!-- Time -->
+                    <div class="story-sticker time-sticker digital-clock">
+                        <div class="time-group">
+                            <span class="time-digit">0</span>
+                            <span class="time-digit">4</span>
+                        </div>
+                        <div class="time-group">
+                            <span class="time-digit">0</span>
+                            <span class="time-digit">2</span>
+                        </div>
+                        <div class="time-ampm-box">PM</div>
+                    </div>
+
+                    <!-- Hashtag -->
+                    <div class="story-sticker hashtag-sticker pill-white">
+                        #SUNNYSANDIEGO ☀️
                     </div>
 
                     <!-- Main Text -->
-                    <h1 class="story-text-overlay" style="transform: rotate(-2deg);">
-                        Sunny <br> <span style="color: #FFD700;">San Diego!</span> ☀️🌊
-                    </h1>
-
-                    <!-- Hashtags -->
-                    <div class="story-sticker hashtag-container">
-                        <span>#SoCal</span> <span>#NoClouds</span> <span>#Paradise</span>
-                    </div>
-
-                    <!-- "Hot" GIF/Sticker placeholder -->
-                    <div class="story-sticker gif-sticker">
-                        🔥 SUMMER VIBES
+                    <div class="story-main-text left-align">
+                        SEEMS
+                        <span class="lyric-small">IT NEVER RAINS</span>
+                        IN
+                        <span class="lyric-small">SOUTHERN</span>
+                        <span class="lyric-small">CALIFORNIA</span>
                     </div>
                 </div>
             </div>
@@ -155,34 +169,52 @@
             <div class="insta-story-overlay fog-text-overlay" style="z-index: 10;">
                 <div class="story-user-tag">
                     <div class="story-avatar-small" style="background-color: #555;"></div>
-                    <span>WAVS</span>
-                    <span class="story-time">1h</span>
+                    <div class="story-meta">
+                        <div class="story-row-top">
+                            <span class="story-username">WAVS</span>
+                            <span class="story-time">1h</span>
+                        </div>
+                        <div class="story-music">
+                            <span class="music-icon">🎵</span>
+                            <span class="music-text">Camila Cabello · June Gloom</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="story-content-wrapper">
-                    <!-- Location Sticker -->
-                    <div class="story-sticker location-sticker" style="color: #555;">
-                        📍 La Jolla, CA
+                <div class="story-content-layer">
+                    <!-- Location -->
+                    <div class="story-sticker location-sticker pill-white">
+                        <span class="loc-icon" style="color: #8b5cf6;">📍</span> La Jolla
                     </div>
-                    <!-- Time Sticker -->
-                    <div class="story-sticker time-sticker" style="transform: rotate(-1deg); margin-top:10px;">
-                        <div class="time-block">07</div>
-                        <div class="time-block">45</div>
-                        <div class="time-ampm">AM</div>
+
+                    <!-- Time -->
+                    <div class="story-sticker time-sticker digital-clock">
+                        <div class="time-group">
+                            <span class="time-digit">0</span>
+                            <span class="time-digit">9</span>
+                        </div>
+                        <div class="time-group">
+                            <span class="time-digit">3</span>
+                            <span class="time-digit">2</span>
+                        </div>
+                        <div class="time-ampm-box">AM</div>
+                    </div>
+
+                    <!-- Hashtag -->
+                    <div class="story-sticker hashtag-sticker pill-white">
+                        #JUNEGLOOM ☁️
                     </div>
 
                     <!-- Main Text -->
-                    <h1 class="story-text-overlay" style="transform: rotate(1deg);">
-                        What the <br> <span style="font-size:1.1em; font-weight:900;">FOG?!</span> 🌫️
-                    </h1>
-                    <!-- Hashtags -->
-                    <div class="story-sticker hashtag-container">
-                        <span>#SoCal</span> <span>#Foggy</span> <span>#JuneGloom</span>
+                    <div class="story-main-text left-align">
+                        JUNE<br>
+                        GLOOM,
+                        <span class="lyric-small">TULE FOG</span>
                     </div>
 
                     <div class="swipe-hint-container">
                         <div id="intro-swipe-btn" class="swipe-hint">
-                            Scratch to remove fog
+                            <span class="scrub-icon">👆</span> Scrub to remove fog
                         </div>
                     </div>
                 </div>
