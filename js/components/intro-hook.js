@@ -261,6 +261,7 @@ class IntroHook {
         if (!text) return;
 
         // Update local memory state
+        const existing = this.words.find(w => w.text.toLowerCase() === text.toLowerCase());
         if (existing) {
             existing.count += 1;
             existing.size += 5;
@@ -358,9 +359,7 @@ class IntroHook {
                 .style("font-size", d => d.size + "px")
                 .style("font-family", "Inter")
                 .style("font-weight", 700)
-                .style("fill", d => d.isUser ? "#FFD700" : "#ffffff") // Gold for user words
-                .style("font-style", d => d.isUser ? "italic" : "normal") // Extra emphasis
-                .style("text-shadow", d => d.isUser ? "0 0 10px rgba(255,215,0,0.5)" : "none") // Glow
+                .style("fill", "#ffffff")
                 .style("opacity", d => opacityScale(d.count)) // Depth
                 .style("cursor", "pointer")
                 .attr("text-anchor", "middle")
