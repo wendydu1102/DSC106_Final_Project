@@ -66,17 +66,22 @@
             <div class="story-bg-gradient"></div>
             <div class="story-ui-header">
                 <div class="story-user">
-                    <div class="story-avatar"></div>
+                    <div class="story-avatar"
+                        style="background-image: url('assets/wave.webp'); background-size: cover;"></div>
                     <span>WAVS</span>
                     <span class="story-time">2h</span>
                 </div>
             </div>
 
-            <div class="story-sticker-container">
+            <div class="story-sticker-container question-card">
+                <div class="question-header-avatar"
+                    style="background-image: url('assets/wave.webp'); background-size: cover;">
+                </div>
                 <h1 class="story-question">If gives one word to describe SoCal, what would it be?</h1>
                 <div class="story-input-wrapper">
                     <input type="text" id="intro-word-input" placeholder="Type something..." autocomplete="off">
-                    <button id="intro-word-submit">POST</button>
+                    <!-- Hidden button for enter key functionality if needed, visually removed to match design -->
+                    <button id="intro-word-submit" style="display:none;"></button>
                 </div>
             </div>
 
@@ -105,7 +110,7 @@
                 <!-- Header -->
                 <div class="story-user-tag">
                     <div class="story-avatar-small"
-                        style="background-image: url('data/goes_images_monthly/2023-01/20230101_1602.webp'); background-size: cover;">
+                        style="background-image: url('assets/wave.webp'); background-size: cover;">
                     </div>
                     <div class="story-meta">
                         <div class="story-row-top">
@@ -168,7 +173,8 @@
             <!-- 3. Fog Text Overlay (Top) - Fades out on scratch -->
             <div class="insta-story-overlay fog-text-overlay" style="z-index: 10;">
                 <div class="story-user-tag">
-                    <div class="story-avatar-small" style="background-color: #555;"></div>
+                    <div class="story-avatar-small"
+                        style="background-image: url('assets/wave.webp'); background-size: cover;"></div>
                     <div class="story-meta">
                         <div class="story-row-top">
                             <span class="story-username">WAVS</span>
@@ -231,7 +237,8 @@
             <!-- Article Card -->
             <div class="article-card" id="intro-article-card" style="z-index: 10; opacity: 1; transform: scale(1);">
                 <div class="article-card-header">
-                    <div class="story-avatar-small" style="background-color: #555;"></div>
+                    <div class="story-avatar-small"
+                        style="background-image: url('assets/wave.webp'); background-size: cover;"></div>
                     <span>WAVS</span>
                 </div>
                 <div class="article-thumbnail"
@@ -251,7 +258,7 @@
     <section class="hero">
         <!-- Replay Story Button -->
         <div id="replay-story-btn" class="story-replay-badge">
-            <div class="story-avatar-tiny" style="background-image: url('assets/sunny_beach.HEIC');"></div>
+            <div class="story-avatar-tiny" style="background-image: url('assets/wave.webp');"></div>
             <span>Watch Story</span>
         </div>
 
