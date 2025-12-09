@@ -13,8 +13,8 @@ class ClimateLab {
         this.scenes = [
             {
                 id: 'temp',
-                title: '1. The Burn',
-                text: 'Notice the lag: Temperature (Red) peaks in August, but Cloud Cover (Grey) remains resilient through mid-summer. The sky only truly clears in October, after the peak heat has passed.',
+                title: '1. Temperature Lag',
+                text: 'Temperature (Red) peaks in August, significantly later than the summer solstice. Cloud cover (Grey) remains high through mid-summer, only dropping to its minimum in October.',
                 driver1: 'temp',
                 driver2: 'clt',
                 driverColor1: '#d95f02',
@@ -23,8 +23,8 @@ class ClimateLab {
             },
             {
                 id: 'pressure',
-                title: '2. The Lid',
-                text: 'High Pressure (Purple) acts as a lid, trapping the cool marine air. The pressure curve closely follows the cloud cover, holding the marine layer in place during the summer months.',
+                title: '2. Atmospheric Pressure',
+                text: 'High Pressure (Purple) traps cool marine air near the surface. The pressure pattern closely follows cloud cover, maintaining the marine layer during the summer months.',
                 driver1: 'pressure',
                 driver2: 'clt',
                 driverColor1: '#7570b3',
@@ -33,8 +33,8 @@ class ClimateLab {
             },
             {
                 id: 'wind',
-                title: '3. The Push',
-                text: 'Wind (Blue) peaks in late Spring (May/June). This "sea breeze" effect pushes moist ocean air inland, fueling the cloud formation that eventually peaks in July.',
+                title: '3. Onshore Winds',
+                text: 'Wind speed (Blue) peaks in late Spring (May/June). Strong onshore winds push moist ocean air inland, contributing to the formation of the marine layer.',
                 driver1: 'wind',
                 driver2: 'clt',
                 driverColor1: '#1f78b4',
@@ -43,8 +43,8 @@ class ClimateLab {
             },
             {
                 id: 'solar',
-                title: '4. The Sun',
-                text: 'Solar Radiation (Orange) peaks in June. Crucially, our cloud cover is thickest exactly when the sun is strongest, shielding the region from the most intense radiation.',
+                title: '4. Solar Protection',
+                text: 'Solar Radiation (Orange) peaks in June. Cloud cover is thickest during this time, reflecting sunlight and keeping the coast cooler than inland areas.',
                 driver1: 'solar',
                 driver2: 'clt',
                 driverColor1: '#e6ab02',
@@ -53,8 +53,8 @@ class ClimateLab {
             },
             {
                 id: 'future',
-                title: '5. The Future Threat',
-                text: 'In a high-warming scenario (SSP5-8.5), temperatures soar even higher (Dashed Red). This thinning marine layer (Dashed Grey) means less protection when we need it most.',
+                title: '5. Future Projections',
+                text: 'In a high-warming scenario (SSP5-8.5), temperatures are projected to increase (Dashed Red). A decrease in cloud cover (Dashed Grey) would reduce protection from the sun.',
                 driver1: 'temp',
                 driver2: 'clt',
                 driverColor1: '#d95f02',
@@ -64,7 +64,7 @@ class ClimateLab {
             {
                 id: 'explorer',
                 title: '6. Climate Explorer',
-                text: 'Now it is your turn. Mix and match any two variables to see how they interact. Toggle the future projections to see where we are heading.',
+                text: 'Use the controls below to compare different variables. You can also toggle future projections to see how these patterns might change by 2100.',
                 driver1: 'temp', // Defaults
                 driver2: 'clt',
                 driverColor1: '#d95f02',
@@ -410,7 +410,8 @@ class ClimateLab {
         // 2. Axes
         const fmt = (val, id) => {
             const u = this.config.vars[id].unit;
-            return val + u;
+            // FIXED: Removed replacement of W/m² to ensure it displays
+            return val + u.replace('°F', '°').replace('hPa', 'mb');
         };
 
         const ax1 = d3.axisLeft(this.yScale1).ticks(5).tickFormat(d => fmt(d, d1));

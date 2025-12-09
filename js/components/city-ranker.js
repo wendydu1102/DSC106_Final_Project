@@ -3,6 +3,7 @@ class CityRanker {
         this.data = data;
         this.weights = { sun: 50, cloud: 70, heat: 30 };
         this.listContainer = document.getElementById('city-list');
+        this.currentPopupCity = null;
 
         mapboxgl.accessToken = CONFIG.mapboxToken;
         this.map = new mapboxgl.Map({
@@ -13,10 +14,10 @@ class CityRanker {
             minZoom: 6.5,
             maxZoom: 12,
             maxBounds: [
-                [-122, 32], // Southwest coordinates
-                [-114, 35.5] // Northeast coordinates
+                [-122, 32],
+                [-114, 35.5]
             ],
-            scrollZoom: true // Enable scroll zoom but constrained
+            scrollZoom: true
         });
 
         this.map.on('load', () => this.initMap());
@@ -27,7 +28,6 @@ class CityRanker {
             offset: 15
         });
 
-        // Initialize Search Interface
         this.initSearch();
     }
 
@@ -61,25 +61,69 @@ class CityRanker {
             }
         });
 
+        // Hover
         this.map.on('mouseenter', 'cities-layer', (e) => {
             this.map.getCanvas().style.cursor = 'pointer';
             this.showPopup(e);
         });
         this.map.on('mouseleave', 'cities-layer', () => {
             this.map.getCanvas().style.cursor = '';
+            // Only remove if not "locked" by click? For now, standard behavior is remove on leave unless clicked.
+            // But we have click behavior.
+            // Usually simpler: hover shows popup, leave removes it.
+            // Click PERMANENTLY shows it?
+            // If we want persistent popup on click, we need to handle that.
+            // Existing logic had popup remove on leave.
+            // Let's keep it simple: Click sets position, but mouseleave might clear it if we are not careful?
+            // If user clicks, they expect it to stay.
+            
+            // Actually, typical mapbox behavior:
+            // Hover -> Show temporary popup.
+            // Click -> open persistent popup.
+            // But we are reusing `this.popup`.
+            // So logic: On hover, update `this.popup`. On leave, remove it?
+            // If I click, and then move mouse away, it disappears? That's annoying for "locking" a selection.
+            
+            // FIX: Only remove on leave if we haven't "locked" a city?
+            // Or better: Let's assume hover is just hover-info. Click is selection.
+            // The search/list click triggers a selection (like click).
+            
+            // To support both:
+            // If specific city selected, don't close on hover-out of that city?
+            // Complicated.
+            // Let's stick to: Hover shows popup. List click zooms and shows popup.
+            // Mouseleave removes popup?
+            
+            // If `list click` happens, the mouse might not be over the dot. So mouseleave won't fire immediately.
+            // But if user moves mouse over map and out of a dot...
+            
+            // Let's allow mouseleave to close it for now to match established pattern, 
+            // BUT if it was opened via click/search (programmatic), it should ideally stay until another interaction.
+            
+            // Let's act like hover is transient.
+            // But click/search is persistent?
+            // For now: I will comment out the `mouseleave` removal to see if that helps "not change" / stickiness.
+            // Wait, if I never remove it, it stays forever.
+            
+            // Revert: The user asked for "tooltip updating". They didn't complain about closing.
+            // The issue was "not change" (update) values.
+            
+            this.currentPopupCity = null; 
             this.popup.remove();
         });
+        
         this.map.on('mousemove', 'cities-layer', (e) => this.showPopup(e));
 
+        // Click on map dot
         this.map.on('click', 'cities-layer', (e) => {
             if (e.features.length) {
                 const feature = e.features[0];
                 const coords = feature.geometry.coordinates;
                 this.map.flyTo({ center: coords, zoom: 10 });
-
-                // Show standard popup
-                new mapboxgl.Popup({ offset: 15, closeButton: false })
-                    .setLngLat(coords)
+                
+                this.currentPopupCity = feature.properties.name; 
+                
+                this.popup.setLngLat(coords)
                     .setHTML(this.getPopupHTML(feature.properties.name, feature.properties.score, feature.properties.rank))
                     .addTo(this.map);
             }
@@ -91,10 +135,10 @@ class CityRanker {
     showPopup(e) {
         if (!e.features.length) return;
         const feature = e.features[0];
+        
+        this.currentPopupCity = feature.properties.name; 
 
         const html = this.getPopupHTML(feature.properties.name, feature.properties.score, feature.properties.rank);
-
-
 
         this.popup.setLngLat(feature.geometry.coordinates)
             .setHTML(html)
@@ -150,13 +194,22 @@ class CityRanker {
                 <div class="city-name">${item.city.name}</div>
                 <div class="city-score">${item.score}</div>
             `;
-            // Add click to fly
+            
             card.onclick = () => {
-                if (this.map) this.map.flyTo({ center: [item.city.lon, item.city.lat], zoom: 9 });
+                if (this.map) {
+                    this.map.flyTo({ center: [item.city.lon, item.city.lat], zoom: 11 }); 
+                    
+                    this.currentPopupCity = item.city.name; 
+                    
+                    this.popup.setLngLat([item.city.lon, item.city.lat])
+                        .setHTML(this.getPopupHTML(item.city.name, item.score, item.rank))
+                        .addTo(this.map);
+                }
             };
             this.listContainer.appendChild(card);
         });
 
+        // Update Map Source
         if (this.map && this.map.getSource('cities')) {
             const features = scores.map(item => ({
                 type: 'Feature',
@@ -175,6 +228,15 @@ class CityRanker {
                 type: 'FeatureCollection',
                 features: features
             });
+            
+            // Check if active popup needs update
+            if (this.currentPopupCity) {
+                 const currentCityItem = scores.find(s => s.city.name === this.currentPopupCity);
+                 if(currentCityItem) {
+                     const html = this.getPopupHTML(currentCityItem.city.name, currentCityItem.score, currentCityItem.rank);
+                     this.popup.setHTML(html);
+                 }
+            }
         }
     }
 
@@ -190,47 +252,33 @@ class CityRanker {
             this.renderSearchResults(allCities, list);
         };
 
-        // Focus Handler - Show all
         input.addEventListener('focus', () => {
-            if (input.value.trim().length === 0) {
-                showAllCities();
-            } else {
-                // If there's value, trigger input logic
-                input.dispatchEvent(new Event('input'));
-            }
+            if (input.value.trim().length === 0) showAllCities();
+            else input.dispatchEvent(new Event('input'));
         });
 
-        // Input Handler
         input.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase().trim();
-
-            // Toggle clear button
             if (clearBtn) clearBtn.style.display = query.length > 0 ? 'flex' : 'none';
-
             if (query.length < 1) {
-                showAllCities(); // Show all instead of hiding
+                showAllCities();
                 return;
             }
-
-            // Filter
             const matches = Object.values(this.data.cities).filter(city =>
                 city.name.toLowerCase().includes(query)
             );
-
             this.renderSearchResults(matches, list);
         });
 
-        // Clear Button Handler
         if (clearBtn) {
             clearBtn.addEventListener('click', () => {
                 input.value = '';
-                showAllCities(); // Keep dropdown open with all cities
+                showAllCities();
                 clearBtn.style.display = 'none';
                 input.focus();
             });
         }
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
             if (!input.contains(e.target) && !list.contains(e.target)) {
                 list.style.display = 'none';
@@ -240,15 +288,10 @@ class CityRanker {
 
     renderSearchResults(matches, listContainer) {
         listContainer.innerHTML = '';
-
         if (matches.length === 0) {
             listContainer.style.display = 'none';
             return;
         }
-
-        // No slice limit, show all matches (scrolling handled by CSS)
-        // const topMatches = matches.slice(0, 8); 
-
         matches.forEach(city => {
             const li = document.createElement('li');
             li.textContent = city.name;
@@ -258,15 +301,12 @@ class CityRanker {
             };
             listContainer.appendChild(li);
         });
-
         listContainer.style.display = 'block';
     }
 
     selectCity(city) {
         const input = document.getElementById('city-search-input');
         if (input) input.value = city.name;
-
-        // Show clear button since value is populated
         const clearBtn = document.getElementById('search-clear-btn');
         if (clearBtn) clearBtn.style.display = 'flex';
 
@@ -277,18 +317,12 @@ class CityRanker {
                 essential: true
             });
 
-            // Trigger popup with standardized HTML
-            const cityData = this.data.cities[city.name];
-            // Calculate rank dynamically (it might change with filters)
-            // But selectCity receives 'city' object which is raw data, need rank
-            // The score is re-calc'd, so let's calc score. Rank is tough without full sort.
-            // Simplified: use score.
-
+            this.currentPopupCity = city.name; 
+            
             const score = this.calculateScore(city);
-
-            new mapboxgl.Popup({ offset: 15, closeButton: false })
-                .setLngLat([city.lon, city.lat])
-                .setHTML(this.getPopupHTML(city.name, score, null)) // Pass null for rank if unknown
+            
+            this.popup.setLngLat([city.lon, city.lat])
+                .setHTML(this.getPopupHTML(city.name, score, null))
                 .addTo(this.map);
         }
     }
@@ -313,5 +347,3 @@ class CityRanker {
         `;
     }
 }
-
-// --- SECTION 1: FOG HOOK ---
