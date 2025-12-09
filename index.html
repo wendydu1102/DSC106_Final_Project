@@ -266,7 +266,7 @@
         <!-- Replay Story Button -->
         <div id="replay-story-btn" class="story-replay-badge">
             <div class="story-avatar-tiny" style="background-image: url('assets/wave.webp');"></div>
-            <span>Watch Story</span>
+            <span>Rewatch Story</span>
         </div>
 
         <div class="hero-grid" id="hero-grid">
@@ -565,7 +565,8 @@
             <strong>"Graypril"</strong>, <strong>"May Gray"</strong>, <strong>"No-Sky July"</strong>, and
             <strong>"Fogust"</strong>. <br>
             The satellite data shows us
-            <em>what</em> it looks like, but to understand <em>why</em> it happens (what's marine layer??), we have to look at the physics.
+            <em>what</em> it looks like, but to understand <em>why</em> it happens (what's marine layer??), we have to
+            look at the physics.
         </p>
     </section>
 
@@ -638,44 +639,24 @@
         <div class="part-number">02</div>
         <div class="part-content">
             <h2>II. The Climate Projection</h2>
-            <p>Now we can use our understanding of the mechanism to project how the gloom will affect the actual "summer"
-                weather. We combined our 2023 observational data with <strong>CMIP6 historical climate models</strong>, taking the
-                average temperature and solar radiation over 20 years to see how the gloom affects the actual "summer"
-                weather.</p>
+            <p>Having examined the daily rhythms of the cloud cover through satellite imagery, we now turn to its
+                long-term
+                impact. To quantify how this persistent gloominess shapes the Southern California summer, we combined
+                our 2023 observational data with <strong>CMIP6 historical climate models</strong>, analyzing 20 years of
+                temperature and solar radiation trends.</p>
         </div>
     </section>
 
     <!-- SECTION 4: CLIMATE LAB -->
     <section id="climate-lab" class="full-screen-section bg-light">
         <div class="section-header">
-            <h2>The Seasonality Matrix</h2>
-            <p>Comparing the seasonal phases of three key climate variables.</p>
+            <h2>Climate Projections</h2>
+            <p>Explore how key climate variables (Clouds, Temperature, Solar) evolve from Historical trends to Future
+                scenarios (CMIP6).</p>
         </div>
 
         <div class="lab-container panel">
-            <!-- Viz -->
-            <div class="lab-viz">
-                <div id="lab-colorfield"></div>
-            </div>
-
-            <!-- Controls -->
-            <div class="lab-controls">
-                <h3>Variable Layer</h3>
-                <div class="var-buttons">
-                    <button class="var-btn active" onclick="app.lab.setVariable('clouds')">Cloud Cover</button>
-                    <button class="var-btn" onclick="app.lab.setVariable('temp')">Temperature (Air)</button>
-                    <button class="var-btn" onclick="app.lab.setVariable('sun')">Solar Radiation</button>
-                </div>
-
-                <div class="seasonality-chart">
-                    <h3>Annual Trend</h3>
-                    <div id="season-sparklines"></div>
-                </div>
-
-                <p id="lab-insight" class="lab-insight">
-                    Data Insight: Cloud cover peaks in late spring, creating a disconnect with rising solar angles.
-                </p>
-            </div>
+            <!-- Content Rendered by climate-lab.js -->
         </div>
     </section>
 
@@ -775,8 +756,8 @@
                 <h3>
                     <span class="strike-through">Sunny</span> Cloudy Socal
                 </h3>
-                <p class="footer-tagline">Is SoCal really sunny?</p>
-                <p>Decoding Southern California's "Sunny" Reputation through Data.</p>
+                <p>Is SoCal really sunny?</p>
+                <p>Visualizing 365 days of NOAA GOES-16 satellite imagery</p>
             </div>
 
             <div class="footer-links">
@@ -784,14 +765,14 @@
                 <ul>
                     <li><a href="https://www.star.nesdis.noaa.gov/GOES/index.php" target="_blank">NOAA GOES-16/18</a>
                     </li>
-                    <li><a href="https://www.ipcc.ch/" target="_blank">CMIP6</a>
+                    <li><a href="cmip" target="_blank">CMIP6</a>
                     <li><a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap</a></li>
                     <li><a href="https://www.mapbox.com/" target="_blank">Mapbox</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2023 University of California, San Diego. DSC 106 Final Project.
+            &copy; 2025 University of California, San Diego. DSC 106 Final Project.
         </div>
     </footer>
 
@@ -817,8 +798,6 @@
     <script src="js/components/hero-grid.js"></script>
     <script src="js/components/cloud-wall.js?v=2"></script>
     <script src="js/components/cloud-playground.js?v=2"></script>
-    <script src="js/components/gloom-scatter.js"></script>
-    <script src="js/components/climate-lab.js"></script>
     <script src="js/components/gloom-scatter.js"></script>
     <script src="js/components/climate-lab.js"></script>
     <script src="js/components/mechanism.js"></script>

@@ -6,40 +6,84 @@ class Dataset {
     }
 
     process() {
-        // 1. Calculate Regional Monthly Means from 'socal_cloudmap_monthly'
-        // This gives us the "Real Seasonality" curve
-        const monthlyStats = {}; // { 1: {cloud, temp, sun}, 2: ... }
+        // 1. Calculate Regional Monthly Means (Spatial Average)
+        // Structure: { scenario: { month: { cloud, temp, sun, pressure, wind } } }
+        this.climatology = { historical: {}, ssp245: {}, ssp585: {} };
 
-        console.log('Dataset: Processing data...', this.raw);
-        console.log('Dataset: Has socal_cloudmap_monthly?', !!this.raw.socal_cloudmap_monthly);
+        const scenarios = {
+            historical: this.raw.socal_cloudmap_monthly,
+            future: this.raw.future_socal_cloudmap_monthly
+        };
 
-        if (this.raw.socal_cloudmap_monthly) {
-            this.raw.socal_cloudmap_monthly.forEach(record => {
-                const m = record.month;
-                if (!monthlyStats[m]) monthlyStats[m] = { c: [], t: [], s: [] };
-                monthlyStats[m].c.push(record.clt);
-                monthlyStats[m].t.push(record.tas);
-                monthlyStats[m].s.push(record.rsds);
+        const aggregator = { historical: {}, ssp245: {}, ssp585: {} };
+
+        // Helper to init month
+        const initMonth = (scen, m) => {
+            if (!aggregator[scen][m]) aggregator[scen][m] = { c: [], t: [], s: [], p: [], w: [] };
+        };
+
+        // Process Historical
+        if (scenarios.historical) {
+            scenarios.historical.forEach(d => {
+                initMonth('historical', d.month);
+                aggregator['historical'][d.month].c.push(d.clt);
+                aggregator['historical'][d.month].t.push(d.tas);
+                aggregator['historical'][d.month].s.push(d.rsds);
+                if (d.psl) aggregator['historical'][d.month].p.push(d.psl);
+                if (d.sfcWind) aggregator['historical'][d.month].w.push(d.sfcWind);
             });
         }
 
-        // Average them out
-        const regionalMeans = [];
-        for (let m = 1; m <= 12; m++) {
-            if (monthlyStats[m]) {
-                const c = monthlyStats[m].c.reduce((a, b) => a + b, 0) / monthlyStats[m].c.length;
-                const t = monthlyStats[m].t.reduce((a, b) => a + b, 0) / monthlyStats[m].t.length;
-                const s = monthlyStats[m].s.reduce((a, b) => a + b, 0) / monthlyStats[m].s.length;
-                // Convert units:
-                // CLT is %, TAS is Kelvin, RSDS is W/m2
-                regionalMeans[m] = {
-                    cloud: c / 100, // 0-1
-                    temp: (t - 273.15) * 9 / 5 + 32, // K -> F
-                    solar: s / 300 // Normalize approx max 300?
-                };
-            } else {
-                regionalMeans[m] = { cloud: 0.5, temp: 70, solar: 0.5 }; // Fallback
+        // Process Future
+        if (scenarios.future) {
+            scenarios.future.forEach(d => {
+                const scen = d.scenario; // 'ssp245' or 'ssp585'
+                if (aggregator[scen]) {
+                    initMonth(scen, d.month);
+                    aggregator[scen][d.month].c.push(d.clt);
+                    aggregator[scen][d.month].t.push(d.tas);
+                    aggregator[scen][d.month].s.push(d.rsds);
+                    if (d.psl) aggregator[scen][d.month].p.push(d.psl);
+                    if (d.sfcWind) aggregator[scen][d.month].w.push(d.sfcWind);
+                }
+            });
+        }
+
+        // Compute Averages
+        ['historical', 'ssp245', 'ssp585'].forEach(scen => {
+            for (let m = 1; m <= 12; m++) {
+                const data = aggregator[scen][m];
+                if (data && data.c.length > 0) {
+                    const avg = arr => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+
+                    this.climatology[scen][m] = {
+                        cloud: avg(data.c),      // % (0-100) 
+                        cloudPct: avg(data.c),  // Store 0-100 for display convenience
+                        clt: avg(data.c),       // Alias to match raw variable name (User Req)
+                        temp: (avg(data.t) - 273.15) * 9 / 5 + 32, // K -> F
+                        solar: avg(data.s),     // W/m2
+                        pressure: avg(data.p) / 100, // Pa -> hPa (mb)
+                        wind: avg(data.w) * 2.23694 // m/s -> mph
+                    };
+
+                    // Normalize Cloud to 0-1 for existing synthesis logic
+                    this.climatology[scen][m].cloudFraction = this.climatology[scen][m].clt / 100;
+
+                } else {
+                    // Fallback
+                    this.climatology[scen][m] = { cloud: 50, cloudPct: 50, clt: 50, cloudFraction: 0.5, temp: 70, solar: 200, pressure: 1013, wind: 5 };
+                }
             }
+        });
+
+        // Use Historical for the synth loop below to maintain current app behavior
+        const regionalMeans = {};
+        for (let m = 1; m <= 12; m++) {
+            regionalMeans[m] = {
+                cloud: this.climatology.historical[m].cloudFraction,
+                temp: this.climatology.historical[m].temp,
+                solar: this.climatology.historical[m].solar / 300 // Legacy normalization for synth noise
+            };
         }
 
         // 2. Use Real Daily Cloud Data from REAL_CLOUD_DATA
