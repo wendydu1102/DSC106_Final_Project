@@ -1,48 +1,41 @@
 # Sunny Cloudy SoCal ⛅
 
-**Is SoCal really sunny?** A data visualization project exploring the truth behind the "Sunny SoCal" stereotype.
+Hi! Welcome to **Sunny Cloudy SoCal**, a data visualization project designed to answer one question: **Is SoCal actually sunny?**
 
 ## Motivation
 
-Southern California is often marketed to the world as a paradise of perfect weather—endless sunshine, palm trees, and beaches. But for the millions of people living along the coast, the reality is frequently different. From "May Gray" to "June Gloom," "No-Sky July," and even "Fogust," the region is often blanketed in a persistent marine layer that creates a stark contrast to the "Sunny SoCal" stereotype.
+Everyone thinks Southern California is always sunny. We see it in movies and ads—palm trees and blue skies. But if you live on the coast, you know about "May Gray" and "June Gloom." It actually gets pretty cloudy.
 
-This project aims to answer the question, **"Is SoCal really sunny?"** by stripping away the marketing and looking at the raw data. We analyzed and processed 365 days of NOAA GOES-16 satellite imagery from 2023 to visualize the actual weather patterns, quantifying just how often the clouds obscure the sun and how these patterns manifest across different times of day and seasons.
+I wanted to see what the data says. Instead of just guessing, I processed 365 days of satellite images from 2023 to visualize the real weather patterns. This project compares the "sunny" stereotype with the reality.
 
 ## Features
 
-### 1. The Cloud Calendar
-A scrollytelling visual narrative that takes you through the year 2023.
--   **Morning vs. Afternoon**: Compare the view from space at 8:00 AM versus 2:00 PM to see how the marine layer burns off (or doesn't).
--   **Seasonal Analysis**: visualizes key weather phenomena including Winter Storms, the onset of May Gray, the June Peak of Gloom, and the "Second Summer" in September/October.
+### 1. Instagram Intro
+The site starts with an interactive story that feels like Instagram. You can answer a quick question about SoCal and then "scratch" off the fog on a photo to reveal what the satellite actually saw that day.
 
-### 2. The Satellite Archive
-An interactive exploration tool giving you control over the entire 2023 dataset.
--   **Timeline Scrubber**: Drag through the year to observe daily cloud patterns.
--   **Comparisons**: Toggle between morning, afternoon, and comparison modes.
--   **Deep Dives**: Analyze specific days in high resolution to see detailed marine layer behavior.
--   **Time-Lapse**: Watch the entire year's cloud cover evolve in a cinematic playback.
+### 2. The Cloud Calendar
+This is a visual story of 2023. You can scroll through the year and compare the view at 8:00 AM (usually cloudy) vs. 2:00 PM (usually sunny) to see how the marine layer burns off.
 
-### 3. The Secret Behind the Gray (Mechanism)
-An interactive educational section that explains *why* the gloom happens.
--   **Physics of Fog**: Learn about the temperature inversion "lid" that traps cool ocean air beneath warm layers.
--   **Interactive Simulation**: Use a slider to simulate the "burn-off" effect, visualizing how rising temperatures mix the air and evaporate the fog.
+### 3. The Satellite Archive
+This is the main interactive tool. You can play around with the data yourself:
+-   **Timeline**: Drag a slider to see cloud patterns for any day in 2023.
+-   **Compare Mode**: See morning and afternoon side-by-side.
+-   **Deep Dives**: Zoom into specific days to see the details.
+-   **Time-Lapse**: Watch a video of the clouds moving across the whole year.
 
-### 4. Climate Seasonality
-Moving beyond just one year, this section uses long-term climate models to provide context.
--   **Historical & Future Data**: Analyzes 24 years of CMIP6 historical data (1990-2014) and projections through 2100.
--   **Variables**: Explore seasonal distributions of Clouds, Temperature, Wind Speed, Solar Radiation, and Air Pressure.
+### 4. How It Works (The Mechanism)
+Why is it so gloomy in June? This section explains the science, like how warm air traps the cool ocean air (temperature inversion). There is an interactive slider where you can simulate the sun burning off the fog.
 
-### 5. Location Optimizer
-A personalized tool to help you find your ideal microclimate.
--   **Preference Weights**: Adjust sliders for Solar Importance, Cloud Sensitivity, and Heat Aversion.
--   **Leaderboard**: See which SoCal cities rank highest based on your personal "Good Weather" definition.
--   **Map Visualization**: Explore the rankings geographically across the region.
+### 5. Climate Data
+Looking beyond just 2023, this section uses long-term climate models (past and future) to show seasonal trends for clouds, temperature, and wind.
 
-### 6. Real-time Clouds
-See what is happening right now with a live feed of the Pacific Southwest.
--   **Live Data**: Displays the latest 4-hour GOES-18 GeoColor satellite loop, updated every 30 minutes.
+### 6. Location Finder
+If you are looking for a place to live, this tool ranks SoCal cities based on your preferences. You can adjust sliders for how much you like sun, heat, or clouds, and it will show you the best match.
+
+### 7. Real-Time Feed
+See what's happening right now. This connects to a live satellite feed so you can see the latest cloud cover over the coast.
 
 ## Data Sources
--   **NOAA GOES-16/18**: Satellite imagery for 2023 analysis and real-time feeds.
--   **CMIP6**: Climate model intercomparison project data for historical and future trends.
--   **OpenStreetMap & Mapbox**: Geospatial data for mapping visualizations.
+-   **NOAA GOES-16/18**: For the satellite images.
+-   **CMIP6**: For the climate data.
+-   **OpenStreetMap & Mapbox**: For the maps.
